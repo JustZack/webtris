@@ -1,5 +1,5 @@
-import Point from "../shared/point";
-import Size from "../shared/size";
+import Point from "../util/point";
+import Size from "../util/size";
 import BlockState from "./blockState";
 
 export default class BlockModel {

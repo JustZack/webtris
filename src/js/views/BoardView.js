@@ -1,15 +1,16 @@
 import BoardModel from "../models/game/board";
-import Size from "../models/shared/size";
-import BlockRow from "./blockrow";
+import Size from "../models/util/size";
+import BlockRowView from "./BlockRowView";
 
 
-export default class Board extends React.Component {
+export default class BoardView extends React.Component {
     constructor(props) {
         super(props);
 
         let windowPosition = props.windowPosition;
         let blockSize = props.blockSize;
-        let boardSize = props.boardSize;
+        let board = props.board;
+        let boardSize = board.size;
 
         this.state = {
             position: windowPosition,
@@ -17,7 +18,7 @@ export default class Board extends React.Component {
                 boardSize.width * blockSize.width,
                 boardSize.height * blockSize.height,
             ),
-            board: new BoardModel(boardSize),
+            board: board,
             blockSize: blockSize,
         }
 
@@ -28,7 +29,7 @@ export default class Board extends React.Component {
         let rendered = [];
         let blocks = this.state.board.blocks;
         for (let i = 0;i < blocks.length;i++) {
-                rendered.push(<BlockRow boardOrigin={this.state.windowPosition} key={i}
+                rendered.push(<BlockRowView boardOrigin={this.state.windowPosition} key={i}
                                     blockSize={this.state.blockSize} blocks={blocks[i]}/>);
         }
         return rendered;

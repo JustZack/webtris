@@ -1,7 +1,8 @@
-import Board from "./views/board";
-import Point from "./models/shared/point";
-import Size from "./models/shared/size";
+import Board from "./views/BoardView";
+import Point from "./models/util/point";
+import Size from "./models/util/size";
 import "../css/App.scss"
+import TetrisGameController from "./controllers/TetrisGameController";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,8 +13,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        It works!
-        <Board windowPosition={new Point(500, 500)} boardSize={new Size(6, 18)} blockSize={new Size(32, 32)}/>
+        <TetrisGameController windowPosition={new Point(500, 500)} blockSize={new Size(15, 15)} boardSize={new Size(10, 20)}/>
       </div>
     );
   }

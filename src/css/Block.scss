@@ -1,8 +1,15 @@
 .block {
     position: relative;
-    background: red;
     border: 1px solid black;
     box-sizing: border-box;
+}
+
+.empty {
+    background: red;
+}
+
+.filled {
+    background: Green;
 }
 
 .block-row {

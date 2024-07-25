@@ -1,4 +1,4 @@
-import Point from "../shared/point"
+import Point from "../util/point"
 
 export default class Tetromino {
     constructor(shapeMatrix, position, origin = new Point(1, 2)) {

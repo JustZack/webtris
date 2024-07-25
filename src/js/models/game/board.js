@@ -1,6 +1,6 @@
 import BlockModel from "../pieces/blockModel";
 import BlockState from "../pieces/blockState";
-import Point from "../shared/point";
+import Point from "../util/point";
 
 export default class BoardModel {
     constructor(size) {
@@ -29,7 +29,7 @@ export default class BoardModel {
         } else if (state < BlockState.EMPTY || state > BlockState.FILLED) {
             throw `Tried Setting an invalid block state: ${state}`;
         } else {
-            this.board[position.y][position.x] = state;
+            this.blocks[position.y][position.x].state = state;
         }
     }
 

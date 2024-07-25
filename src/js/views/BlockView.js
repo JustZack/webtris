@@ -1,4 +1,6 @@
-export default class Block extends React.Component {
+import BlockState from "../models/pieces/blockState";
+
+export default class BlockView extends React.Component {
     constructor(props) {
         super(props);
         let boardOrigin = props.boardOrigin;
@@ -18,7 +20,8 @@ export default class Block extends React.Component {
         let w = size.width;
         let h = size.height;
         let style = {width: w, height: h};
-        return (<td className="block" style={style}></td>)
+        let clss = "block " + (block.state == BlockState.EMPTY ? "empty" : "filled");
+        return (<td className={clss} style={style}></td>)
     }
   }
   
