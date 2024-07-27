@@ -1,9 +1,9 @@
+import BlockRenderer from "./BlockRenderer";
 import BlockView from "./BlockView";
 
-export default class BlockRowView extends React.Component {
+export default class BlockRowView extends BlockRenderer {
     constructor(props) {
         super(props);
-        this.renderBlocks = this.renderBlocks.bind(this);
     }
 
     renderBlocks() {

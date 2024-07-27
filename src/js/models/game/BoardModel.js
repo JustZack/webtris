@@ -1,6 +1,6 @@
-import BlockModel from "../pieces/blockModel";
-import BlockState from "../pieces/blockState";
-import Point from "../util/point";
+import BlockModel from "../pieces/BlockModel";
+import BlockState from "../pieces/BlockState";
+import Point from "../util/Point";
 
 export default class BoardModel {
     constructor(size) {

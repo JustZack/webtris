@@ -1,8 +1,9 @@
-import BoardModel from "../models/game/board";
-import Size from "../models/util/size";
-import Point from "../models/util/point";
+import BoardModel from "../models/game/BoardModel";
+import Size from "../models/util/Size";
+import Point from "../models/util/Point";
 import BoardView from "../views/BoardView";
-import BlockState from "../models/pieces/blockState";
+import BlockState from "../models/pieces/BlockState";
+import FallingPieceController from "./FallingPieceController";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -35,6 +36,7 @@ export default class TetrisGameController extends React.Component {
         return (
             <div>
                 <button onClick={this.updateBoardState}>Update it</button>
+                <FallingPieceController />
                 <BoardView windowPosition={this.state.windowPosition} board={this.state.boardModel} blockSize={this.state.boardBlockSize}/>
             </div>
         )

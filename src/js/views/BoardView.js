@@ -1,9 +1,10 @@
-import BoardModel from "../models/game/board";
-import Size from "../models/util/size";
+import BoardModel from "../models/game/BoardModel";
+import Size from "../models/util/Size";
+import BlockRenderer from "./BlockRenderer";
 import BlockRowView from "./BlockRowView";
 
 
-export default class BoardView extends React.Component {
+export default class BoardView extends BlockRenderer {
     constructor(props) {
         super(props);
 
@@ -21,8 +22,6 @@ export default class BoardView extends React.Component {
             board: board,
             blockSize: blockSize,
         }
-
-        this.renderBlocks = this.renderBlocks.bind(this);
     }
 
     renderBlocks() {
