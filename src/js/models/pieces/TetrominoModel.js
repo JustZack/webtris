@@ -2,57 +2,51 @@ import Direction from "../util/Direction";
 import Point from "../util/Point"
 import BlockModel from "./blockModel";
 import BlockOrigin from "./BlockOrigin";
+import MatrixModel from "./MatrixModel";
 
 export default class TetrominoModel {
     constructor(shapeMatrix, origin, colorState, position) {
-        this.shape = shapeMatrix;
+        this.matrix = new MatrixModel(shapeMatrix);
         this.origin = origin;
         this.colorState = colorState;
         this.position = position;
         this.facing = Direction.UP;
-        this.blocks = this.buildPiece();
+        this.buildPiece();
     }
 
     buildPiece() {
         let angleOffset = Direction.angle(this.direction, Direction.UP);
-        let shape = this.shape;
+        let shape = this.matrix.shape;
 
-        //TODO: Rotate
-        
         //TODO: Block positions relative to the origin
         let p = this.position;
         let blocks = [];
-        for (let i = 0;i < this.shape.length;i++)
-            for (let j = 0;j < this.shape[i].length;j++)
-                if (this.shape[i][j] == 1)
+        for (let i = 0;i < shape.length;i++)
+            for (let j = 0;j < shape[i].length;j++)
+                if (shape[i][j] == 1)
                     blocks.push(new BlockModel(new Point(p.x+j, p.y+i), this.colorState))
-        return blocks;
+        this.blocks = blocks;
     }
 
     move(direction) {
-        let dir = null;
-        let isVertical = null;
         if (direction == Direction.UP || direction == Direction.DOWN) {
-            dir = direction == Direction.UP ? -1 : 1;
-            isVertical = true;
+            this.position.y += direction == Direction.UP ? -1 : 1;
         } else if (direction == Direction.LEFT || direction == Direction.RIGHT) {
-            dir = direction == Direction.LEFT ? -1 : 1;
-            isVertical = false;
+            this.position.x += direction == Direction.LEFT ? -1 : 1;;
         }
-
-        for (let bIndex in this.blocks) {
-            let block = this.blocks[bIndex];
-            if (isVertical) {
-                block.position.y += dir;
-            } else {
-                block.position.x += dir;
-            }
-        }
+        this.buildPiece();
     }
 
     rotate(direction) {
-        if (this.direction == Direction.LEFT) this.direction = Direction.UP;
-        else this.direction++;
+        if (direction == Direction.LEFT) {
+            if (this.facing == Direction.UP) this.facing = Direction.LEFT;
+            else this.facing--;
+        } else if(direction == Direction.RIGHT) {
+            if (this.facing == Direction.LEFT) this.facing = Direction.UP;
+            else this.facing++;
+        }
+        this.matrix.rotate(direction);
+        this.buildPiece();
     }
 
     

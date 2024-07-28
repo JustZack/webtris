@@ -23,7 +23,7 @@ export default class FallingPieceController extends React.Component {
     }
 
     spawnRandomPiece() {
-        let start = this.props.spawnPoint;
+        let start = this.props.spawnPoint.copy();
         let rand = Math.floor(Math.random()*7);
         switch (rand) {
             case 0: return new IModel(start);
@@ -43,11 +43,13 @@ export default class FallingPieceController extends React.Component {
 
             if (piece != null) {
                 switch (gameAction) {
-                    case GameAction.PLACE_PIECE: this.props.commitToBoard(piece); piece = null; break;
-                    case GameAction.MOVE_LEFT:   piece.move(Direction.LEFT); break;
-                    case GameAction.MOVE_UP:     piece.move(Direction.UP); break;
-                    case GameAction.MOVE_RIGHT:  piece.move(Direction.RIGHT); break;
-                    case GameAction.MOVE_DOWN:   piece.move(Direction.DOWN); break;
+                    case GameAction.PLACE_PIECE:    this.props.commitToBoard(piece); piece = null; break;
+                    case GameAction.MOVE_LEFT:      piece.move(Direction.LEFT); break;
+                    case GameAction.MOVE_UP:        piece.move(Direction.UP); break;
+                    case GameAction.MOVE_RIGHT:     piece.move(Direction.RIGHT); break;
+                    case GameAction.MOVE_DOWN:      piece.move(Direction.DOWN); break;
+                    case GameAction.ROTATE_LEFT:    piece.rotate(Direction.LEFT); break;
+                    case GameAction.ROTATE_RIGHT:   piece.rotate(Direction.RIGHT); break;
                 }
             } else if (gameAction == GameAction.MAKE_PIECE) {
                 piece = this.spawnRandomPiece(); 

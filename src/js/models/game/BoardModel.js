@@ -1,4 +1,4 @@
-import BlockModel from "../pieces/BlockModel";
+import BlockModel from "../pieces/BlockModel" ;
 import BlockState from "../pieces/BlockState";
 import Point from "../util/Point";
 
