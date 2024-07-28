@@ -20,11 +20,10 @@ export default class TetrisGameController extends React.Component {
             windowPosition: props.windowPosition,
             boardBlockSize: props.blockSize,
             boardModel: new BoardModel(new Size(10, 30)),
-            lastUpdatePoint: new Point(-1,0)
+            spawnPoint: new Point(4, 1)
         }
-        this.updateBoardState = this.updateBoardState.bind(this);
-        this.getRandomPiece = this.getRandomPiece.bind(this);
-        this.appendPiece = this.appendPiece.bind(this);
+        this.addFalling = this.addFalling.bind(this);
+        this.commitToBoard = this.commitToBoard.bind(this);
         this.clearDynamics = this.clearDynamics.bind(this);
         this.clearStatics = this.clearStatics.bind(this);
         this.doBoardUpdate = this.doBoardUpdate.bind(this);
@@ -36,38 +35,12 @@ export default class TetrisGameController extends React.Component {
         this.setState({boardModel: b});
     }
 
-    updateBoardState() {
-        this.doBoardUpdate((b) => {
-            let p = this.state.lastUpdatePoint;
-    
-            if (p.x < b.size.width-1) p.x++;
-            else {
-                p.x = 0;
-                if (p.y < b.size.height-1) p.y++;
-                else p.y = 0;
-            }
-            b.commitStaticBlockState(p, BlockState.LAST_STATE);
-            this.setState({lastUpdatePoint: p});
-        });
-    }
-
-    getRandomPiece() {
-        let start = this.state.lastUpdatePoint;
-        let rand = Math.floor(Math.random()*7);
-        switch (rand) {
-            case 0: return new IModel(start);
-            case 1: return new LModel(start);
-            case 2: return new JModel(start);
-            case 3: return new SModel(start);
-            case 4: return new ZModel(start);
-            case 5: return new TModel(start);
-            case 6: return new CubeModel(start);
-        }
-    }
-
-
-    appendPiece(piece) {
+    addFalling(piece) {
         this.doBoardUpdate((b) => { b.commitDynamicPiece(piece); });
+    }
+
+    commitToBoard(piece) {
+        this.doBoardUpdate((b) => { b.commitStaticPiece(piece); });
     }
 
     clearDynamics() {
@@ -81,11 +54,8 @@ export default class TetrisGameController extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.updateBoardState}>Update it</button>
-                <button onClick={this.appendPiece}>Add it</button>
-                <button onClick={this.clearDynamics}>Clear Dynamics</button>
-                <button onClick={this.clearStatics}>Clear Statics</button>
-                <FallingPieceController commitPiece={this.appendPiece} clearFallingPieces={this.clearDynamics}/>
+                <button onClick={this.clearStatics}>Clear Board</button>
+                <FallingPieceController addFalling={this.addFalling} clearFalling={this.clearDynamics} commitToBoard={this.commitToBoard} spawnPoint={this.state.spawnPoint}/>
                 <BoardView windowPosition={this.state.windowPosition} board={this.state.boardModel} blockSize={this.state.boardBlockSize}/>
             </div>
         )

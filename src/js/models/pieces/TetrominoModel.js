@@ -29,6 +29,27 @@ export default class TetrominoModel {
         return blocks;
     }
 
+    move(direction) {
+        let dir = null;
+        let isVertical = null;
+        if (direction == Direction.UP || direction == Direction.DOWN) {
+            dir = direction == Direction.UP ? -1 : 1;
+            isVertical = true;
+        } else if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+            dir = direction == Direction.LEFT ? -1 : 1;
+            isVertical = false;
+        }
+
+        for (let bIndex in this.blocks) {
+            let block = this.blocks[bIndex];
+            if (isVertical) {
+                block.position.y += dir;
+            } else {
+                block.position.x += dir;
+            }
+        }
+    }
+
     rotate(direction) {
         if (this.direction == Direction.LEFT) this.direction = Direction.UP;
         else this.direction++;

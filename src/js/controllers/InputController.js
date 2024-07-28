@@ -33,7 +33,7 @@ export default class InputController extends React.Component {
 
 
     handleKeyDown(event) {
-        console.log(this.getGameActionForButton(event));
+        this.props.callback(event, this.getGameActionForButton(event));
     }
 
     render() { }

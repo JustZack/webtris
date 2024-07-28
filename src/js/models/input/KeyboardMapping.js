@@ -14,6 +14,7 @@ const KeyboardMapping = {
     ROTATE_RIGHT: [69, 190],
 
     //Space
-    PLACE_PIECE: [32]
+    PLACE_PIECE: [32],
+    MAKE_PIECE: [82]
 }
 export default KeyboardMapping;
