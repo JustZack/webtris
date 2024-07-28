@@ -1,4 +1,4 @@
-import Size from "../models/util/Size";
+import Size from "../util/Size";
 import BlockRenderer from "./BlockRenderer";
 import BlockRowView from "./BlockRowView";
 

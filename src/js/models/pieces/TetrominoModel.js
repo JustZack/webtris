@@ -1,5 +1,5 @@
-import Direction from "../util/Direction";
-import Point from "../util/Point"
+import Direction from "../../util/Direction";
+import Point from "../../util/Point"
 import BlockModel from "./blockModel";
 import BlockOrigin from "./BlockOrigin";
 import MatrixModel from "./MatrixModel";
@@ -15,17 +15,15 @@ export default class TetrominoModel {
     }
 
     buildPiece() {
-        let angleOffset = Direction.angle(this.direction, Direction.UP);
         let shape = this.matrix.shape;
 
-        //TODO: Block positions relative to the origin
+        //TODO: Block positions relative to the origin point (this might be unessesary?)
         let p = this.position;
-        let blocks = [];
+        this.blocks = [];
         for (let i = 0;i < shape.length;i++)
             for (let j = 0;j < shape[i].length;j++)
                 if (shape[i][j] == 1)
-                    blocks.push(new BlockModel(new Point(p.x+j, p.y+i), this.colorState))
-        this.blocks = blocks;
+                    this.blocks.push(new BlockModel(new Point(p.x+j, p.y+i), this.colorState))
     }
 
     move(direction) {

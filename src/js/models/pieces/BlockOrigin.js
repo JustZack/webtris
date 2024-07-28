@@ -1,4 +1,4 @@
-import Point from "../util/Point";
+import Point from "../../util/Point";
 
 export default class BlockOrigin extends Point {
     static CENTER = 0;          //Middle of a block

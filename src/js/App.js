@@ -1,6 +1,6 @@
 import Board from "./views/BoardView";
-import Point from "./models/util/Point";
-import Size from "./models/util/Size";
+import Point from "./util/Point";
+import Size from "./util/Size";
 import "../css/App.scss"
 import TetrisGameController from "./controllers/TetrisGameController";
 

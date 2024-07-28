@@ -1,4 +1,4 @@
-import Direction from "../util/Direction";
+import Direction from "../../util/Direction";
 
 export default class MatrixModel {
     constructor(shape) {
@@ -6,7 +6,6 @@ export default class MatrixModel {
     }
 
     rotate(direction) {
-        console.log(this.shape);
         let newShape = [];
         let rows = this.shape.length;
         let cols = this.shape[0].length;
@@ -24,6 +23,5 @@ export default class MatrixModel {
             }
         }
         this.shape = newShape;
-        console.log(newShape);
     }
 }
