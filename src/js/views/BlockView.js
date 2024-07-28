@@ -13,7 +13,6 @@ export default class BlockView extends React.Component {
             size: blockSize,
             block: block,
         }
-        console.log(this.state.cssClass);
     }
 
     static determineColorClass(state) {

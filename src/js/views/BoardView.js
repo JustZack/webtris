@@ -26,8 +26,6 @@ export default class BoardView extends BlockRenderer {
     renderBlocks() {
         let rendered = [];
         let blocks = this.state.board.getBlocks();
-        console.log("COMBINED:");
-        console.log(blocks);
         for (let i = 0;i < blocks.length;i++) {
                 rendered.push(<BlockRowView boardOrigin={this.state.windowPosition} key={i}
                                     blockSize={this.state.blockSize} blocks={blocks[i]}/>);

@@ -25,8 +25,6 @@ export default class BoardModel {
 
     getBlocks() { 
         return BoardModel.combineBoards(this.staticBoard, this.dynamicBoard); 
-        return this.staticBoard;
-        return this.dynamicBoard;
     }
 
     clearStaticBoard() {
@@ -68,8 +66,6 @@ export default class BoardModel {
         } else if (state < BlockState.EMPTY || state > BlockState.LAST_STATE) {
             throw `Tried Setting an invalid block state: ${state}`;
         } else {
-            console.log(position);
-            console.log(state);
             board[position.y][position.x].state = state;
         }
         return board;

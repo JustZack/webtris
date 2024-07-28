@@ -11,6 +11,7 @@ import SModel from "../models/pieces/SModel";
 import ZModel from "../models/pieces/ZModel";
 import CubeModel from "../models/pieces/CubeModel";
 import TModel from "../models/pieces/TModel";
+import KeyboardMapping from "../models/input/KeyboardMapping";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -65,8 +66,8 @@ export default class TetrisGameController extends React.Component {
     }
 
 
-    appendPiece() {
-        this.doBoardUpdate((b) => { b.commitDynamicPiece(this.getRandomPiece()); });
+    appendPiece(piece) {
+        this.doBoardUpdate((b) => { b.commitDynamicPiece(piece); });
     }
 
     clearDynamics() {
@@ -78,14 +79,13 @@ export default class TetrisGameController extends React.Component {
     }
 
     render() {
-        console.log(this.state.boardModel);
         return (
             <div>
                 <button onClick={this.updateBoardState}>Update it</button>
                 <button onClick={this.appendPiece}>Add it</button>
                 <button onClick={this.clearDynamics}>Clear Dynamics</button>
                 <button onClick={this.clearStatics}>Clear Statics</button>
-                <FallingPieceController />
+                <FallingPieceController commitPiece={this.appendPiece} clearFallingPieces={this.clearDynamics}/>
                 <BoardView windowPosition={this.state.windowPosition} board={this.state.boardModel} blockSize={this.state.boardBlockSize}/>
             </div>
         )
