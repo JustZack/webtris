@@ -20,7 +20,7 @@ export default class TetrisGameController extends React.Component {
             windowPosition: props.windowPosition,
             boardBlockSize: props.blockSize,
             boardModel: new BoardModel(new Size(10, 30)),
-            spawnPoint: new Point(4, 1)
+            spawnPoint: new Point(4, 0)
         }
         this.addFalling = this.addFalling.bind(this);
         this.commitToBoard = this.commitToBoard.bind(this);

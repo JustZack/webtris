@@ -75,7 +75,11 @@ export default class BoardModel {
     static combineBoards(boardA, boardB) {
         let wa = boardA[0].length, wb = boardB[0].length;
         let ha = boardA.length, hb = boardB.length;
-        if (wa == wb && ha == hb) {
+        if (wa != wb || ha != hb) {
+            throw `Tried combining boards of different sizes.\n` +
+                    `\tboardA{width: ${wa}, height: ${ha}}\n` +
+                    `\tboardB{width: ${wb}, height: ${hb}}`;
+        } else {
             let result = [];
             for (let i = 0;i < boardA.length;i++) {
                 result.push([]);
@@ -97,10 +101,6 @@ export default class BoardModel {
                 }
             }
             return result;
-        } else {
-            throw `Tried combining boards of different sizes.\n` +
-                    `\tboardA{width: ${wa}, height: ${ha}}\n` +
-                    `\tboardB{width: ${wb}, height: ${hb}}`;
         }
     }
 
@@ -108,7 +108,5 @@ export default class BoardModel {
         toBoard = JSON.parse(JSON.stringify(fromBoard)); 
         return toBoard;
     }
-
-    
   }
   
