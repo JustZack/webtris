@@ -7,8 +7,5 @@ export default class BlockModel {
       this.position = position;
       this.state = state;
     }
-
-    setEmpty() { this.state = BlockState.EMPTY; }
-    setFilled() { this.state = BlockState.FILLED; }
   }
   

@@ -14,16 +14,7 @@ export default class FallingPieceController extends React.Component {
         }
     }
 
-    getRandomePiece() {
-        switch (Math.random()%6) {
-            case 0: return new IModel();
-            case 1: return new LModel();
-            case 2: return new JModel();
-            case 3: return new SModel();
-            case 4: return new ZModel();
-            case 5: return new CubeModel();
-        }
-    }
+
 
     render() {
         return (

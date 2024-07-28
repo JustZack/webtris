@@ -1,4 +1,3 @@
-import BoardModel from "../models/game/BoardModel";
 import Size from "../models/util/Size";
 import BlockRenderer from "./BlockRenderer";
 import BlockRowView from "./BlockRowView";
@@ -26,7 +25,9 @@ export default class BoardView extends BlockRenderer {
 
     renderBlocks() {
         let rendered = [];
-        let blocks = this.state.board.blocks;
+        let blocks = this.state.board.getBlocks();
+        console.log("COMBINED:");
+        console.log(blocks);
         for (let i = 0;i < blocks.length;i++) {
                 rendered.push(<BlockRowView boardOrigin={this.state.windowPosition} key={i}
                                     blockSize={this.state.blockSize} blocks={blocks[i]}/>);
@@ -37,7 +38,7 @@ export default class BoardView extends BlockRenderer {
     render() {
         let pos = this.state.position;
         let size = this.state.size;
-        let style = {top: pos.x, left: pos.y, width: size.width, height: size.height};
+        let style = {top: pos.y, left: pos.x, width: size.width, height: size.height};
         return (
             <table className="tetris-board" style={style}>
                 <tbody>
