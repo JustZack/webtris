@@ -9,6 +9,6 @@ export default class JModel extends TetrominoModel {
             [1, 1, 1],
             [0, 0, 1],
         ];
-        super(shape, new BlockOrigin(1, 1, BlockOrigin.TOP_LEFT), BlockState.COLOR_2, position);
+        super(shape, new BlockOrigin(1, 1, BlockOrigin.TOP_LEFT), BlockState.COLOR_3, position);
     }
 }

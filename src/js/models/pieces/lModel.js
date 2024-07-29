@@ -6,9 +6,9 @@ export default class LModel extends TetrominoModel {
     
     constructor(position) {
         let shape = [
-            [0, 0, 1],
             [1, 1, 1],
+            [1, 0, 0],
         ];
-        super(shape, new BlockOrigin(1, 1, BlockOrigin.TOP_RIGHT), BlockState.COLOR_3, position);
+        super(shape, new BlockOrigin(1, 1, BlockOrigin.TOP_RIGHT), BlockState.COLOR_2, position);
     }
 }

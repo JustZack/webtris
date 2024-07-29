@@ -24,8 +24,8 @@ export default class BlockView extends React.Component {
             case BlockState.COLOR_4: 
             case BlockState.COLOR_5: 
             case BlockState.COLOR_6: 
-            case BlockState.COLOR_7: return `color-${state}`;
-            case BlockState.LAST_STATE: return "filled";
+            case BlockState.COLOR_7: return `filled color-${state}`;
+            case BlockState.LAST_STATE: return "default-filled";
             default: return "empty";
         }
     }

@@ -48,8 +48,24 @@ export default class BoardModel {
     }
 
     pieceCanMove(piece, moveDir, rotateDir) {
+        return this.pieceStaysOnBoard(piece, moveDir, rotateDir)
+            && this.pieceHasRoom(piece, moveDir, rotateDir);
+    }
+
+    //Check if the piece has room to do the given move, based on the current board state
+    pieceHasRoom(piece, moveDir, rotateDir) {
+        //Piece is not moving, so nothing to check.
+        if (moveDir == null && rotateDir == null) return true;  
+        
+        return true;
+    }
+
+    //Check if the piece would remain in the board boundry
+    pieceStaysOnBoard(piece, moveDir, rotateDir) {
+        //Piece is not moving, so nothing to check.
+        if (moveDir == null && rotateDir == null) return true;
         //Keep from the left wall
-        if (moveDir == Direction.LEFT) 
+        else if (moveDir == Direction.LEFT) 
             return piece.position.x > 0;
         //Keep from right wall
         else if (moveDir == Direction.RIGHT) 
@@ -68,8 +84,7 @@ export default class BoardModel {
             let overflowBottom = piece.position.y + piece.size.width > this.size.height;
             return !overflowRight && !overflowBottom;
         }
-        
-        //If all else fails, the piece can move.
+
         return true;
     }
 

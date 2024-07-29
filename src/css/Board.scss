@@ -1,4 +1,6 @@
 .tetris-board {
     position: absolute;
+    border: 5px solid aqua;
+    box-sizing: border-box;
     border-collapse: collapse;
 }
