@@ -1,8 +1,14 @@
 import Direction from "../../util/Direction";
+import Size from "../../util/Size";
 
 export default class MatrixModel {
     constructor(shape) {
-        this.shape = shape;
+        this.setShape(shape);
+    }
+
+    setShape(newShape) {
+        this.shape = newShape;
+        this.size = new Size(newShape[0].length, newShape.length);
     }
 
     rotate(direction) {
@@ -22,6 +28,6 @@ export default class MatrixModel {
                 newShape[newJ][newI] = this.shape[i][j];
             }
         }
-        this.shape = newShape;
+        this.setShape(newShape);
     }
 }

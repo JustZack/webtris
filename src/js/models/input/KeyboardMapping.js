@@ -15,6 +15,7 @@ const KeyboardMapping = {
 
     //Space
     PLACE_PIECE: [32],
+    //R
     MAKE_PIECE: [82]
 }
 export default KeyboardMapping;

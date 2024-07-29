@@ -18,8 +18,9 @@ export default class TetrisGameController extends React.Component {
 
     doBoardUpdate(callback) {
         let b = this.state.boardModel;
-        callback(b);
+        let result = callback(b);
         this.setState({boardModel: b});
+        return result;
     }
 
     clearStatics() {

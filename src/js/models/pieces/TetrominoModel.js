@@ -16,7 +16,7 @@ export default class TetrominoModel {
 
     buildPiece() {
         let shape = this.matrix.shape;
-
+        this.size = this.matrix.size;
         //TODO: Block positions relative to the origin point (this might be unessesary?)
         let p = this.position;
         this.blocks = [];
@@ -45,8 +45,6 @@ export default class TetrominoModel {
         }
         this.matrix.rotate(direction);
         this.buildPiece();
-    }
-
-    
+    }    
 }
   

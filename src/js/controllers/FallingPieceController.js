@@ -13,8 +13,9 @@ export default class FallingPieceController extends React.Component {
         }
         this.spawnRandomPiece = this.spawnRandomPiece.bind(this);
         this.handleGameAction = this.handleGameAction.bind(this);
-        this.updateFallingPiece = this.updateFallingPiece.bind(this);
-        this.commitSetPiece = this.commitSetPiece.bind(this);
+        this.commitFallingPiece = this.commitFallingPiece.bind(this);
+        this.commitToBoard = this.commitToBoard.bind(this);
+        this.tryCommitFallingPiece = this.tryCommitFallingPiece.bind(this);
     }
 
     spawnRandomPiece() {
@@ -23,37 +24,53 @@ export default class FallingPieceController extends React.Component {
         return new pieceClass(start);
     }
 
-    updateFallingPiece(piece) {
+    commitFallingPiece(piece) {
         this.props.doBoardUpdate((b) => {
             b.clearDynamicBoard();
             b.commitDynamicPiece(piece);
         });
     }
 
-    commitSetPiece(piece) {
+    commitToBoard(piece) {
         this.props.doBoardUpdate((b) => {
             b.clearDynamicBoard();
             b.commitStaticPiece(piece);
         });
     }
 
+    tryCommitFallingPiece(piece, moveDirection, rotateDirection) {
+        this.props.doBoardUpdate((b) => {
+            if (b.pieceCanMove(piece, moveDirection, rotateDirection)) {
+                if (moveDirection != null) piece.move(moveDirection);
+                else if (rotateDirection != null) piece.rotate(rotateDirection);
+                b.clearDynamicBoard();
+                b.commitDynamicPiece(piece);
+            }
+        });
+    }
+
+
     handleGameAction(event, gameAction) {
         if (gameAction != false) {
             let piece = this.state.fallingPiece;
+            let moveDirection = null;
+            let rotateDirection = null;
             if (piece != null) {
                 switch (gameAction) {
-                    case GameAction.PLACE_PIECE:    this.commitSetPiece(piece); piece = this.spawnRandomPiece(); break;
-                    case GameAction.MOVE_LEFT:      piece.move(Direction.LEFT); break;
-                    case GameAction.MOVE_UP:        piece.move(Direction.UP); break;
-                    case GameAction.MOVE_RIGHT:     piece.move(Direction.RIGHT); break;
-                    case GameAction.MOVE_DOWN:      piece.move(Direction.DOWN); break;
-                    case GameAction.ROTATE_LEFT:    piece.rotate(Direction.LEFT); break;
-                    case GameAction.ROTATE_RIGHT:   piece.rotate(Direction.RIGHT); break;
+                    case GameAction.PLACE_PIECE:    this.commitToBoard(piece); piece = this.spawnRandomPiece(); break;
+                    case GameAction.MOVE_LEFT:      moveDirection = Direction.LEFT; break;
+                    case GameAction.MOVE_UP:        moveDirection = Direction.UP; break;
+                    case GameAction.MOVE_RIGHT:     moveDirection = Direction.RIGHT; break;
+                    case GameAction.MOVE_DOWN:      moveDirection = Direction.DOWN; break;
+                    case GameAction.ROTATE_LEFT:    rotateDirection = Direction.LEFT; break;
+                    case GameAction.ROTATE_RIGHT:   rotateDirection = Direction.RIGHT; break;
                 }
             } else if (gameAction == GameAction.MAKE_PIECE) {
                 piece = this.spawnRandomPiece(); 
             }
-            if (piece != null) this.updateFallingPiece(piece);
+            if (piece != null) {
+                this.tryCommitFallingPiece(piece, moveDirection, rotateDirection);
+            }
             this.setState({fallingPiece: piece});
         }
     }

@@ -1,6 +1,7 @@
 import BlockModel from "../pieces/BlockModel" ;
 import BlockState from "../pieces/BlockState";
 import Point from "../../util/Point";
+import Direction from "../../util/Direction";
 
 export default class BoardModel {
     constructor(size) {
@@ -44,6 +45,32 @@ export default class BoardModel {
 
     commitStaticBlockState(position, state) {
         this.staticBoard = BoardModel.setBlockState(this.staticBoard, position, state)
+    }
+
+    pieceCanMove(piece, moveDir, rotateDir) {
+        //Keep from the left wall
+        if (moveDir == Direction.LEFT) 
+            return piece.position.x > 0;
+        //Keep from right wall
+        else if (moveDir == Direction.RIGHT) 
+            return piece.position.x + piece.size.width < this.size.width;
+        //Keep from ceiling
+        else if (moveDir == Direction.UP) 
+            return piece.position.y > 0;
+        //Keep from floor
+        else if (moveDir == Direction.DOWN) 
+            return piece.position.y +  piece.size.height < this.size.height;
+        //Keep rotations from spilling through walls
+        else if (rotateDir != null) {
+            //Rotations always end up swapping the width for height for peice sizes.
+            //Only treating pieces as their full matrix sizes to keep on the board.
+            let overflowRight = piece.position.x + piece.size.height > this.size.width;
+            let overflowBottom = piece.position.y + piece.size.width > this.size.height;
+            return !overflowRight && !overflowBottom;
+        }
+        
+        //If all else fails, the piece can move.
+        return true;
     }
 
     commitDynamicPiece(piece) {
