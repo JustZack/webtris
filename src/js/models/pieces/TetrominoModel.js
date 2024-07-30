@@ -1,7 +1,6 @@
 import Direction from "../../util/Direction";
 import Point from "../../util/Point"
 import BlockModel from "./blockModel";
-import BlockOrigin from "./BlockOrigin";
 import MatrixModel from "./MatrixModel";
 
 export default class TetrominoModel {

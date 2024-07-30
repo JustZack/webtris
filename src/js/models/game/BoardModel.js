@@ -2,14 +2,15 @@ import BlockModel from "../pieces/BlockModel" ;
 import BlockState from "../pieces/BlockState";
 import Point from "../../util/Point";
 import Direction from "../../util/Direction";
+import _ from "lodash";
 
 export default class BoardModel {
     constructor(size) {
       this.size = size;
       //Keep an empty board around to easily clear the main or step boards as needed.
       this.emptyBoard = BoardModel.buildBoard(this.size);
-      this.staticBoard = BoardModel.copyBoard(this.emptyBoard, this.staticBoard);
-      this.dynamicBoard = BoardModel.copyBoard(this.emptyBoard, this.dynamicBoard);
+      this.staticBoard = _.cloneDeep(this.emptyBoard);
+      this.dynamicBoard = _.cloneDeep(this.emptyBoard);
       this.stepPieces = [];
     }
 
@@ -29,11 +30,11 @@ export default class BoardModel {
     }
 
     clearStaticBoard() {
-        this.staticBoard = BoardModel.copyBoard(this.emptyBoard, this.staticBoard);
+        this.staticBoard = _.cloneDeep(this.emptyBoard);
     }
 
     clearDynamicBoard() {
-        this.dynamicBoard = BoardModel.copyBoard(this.emptyBoard, this.dynamicBoard);
+        this.dynamicBoard = _.cloneDeep(this.emptyBoard);
     }
 
     commitStaticPiece(piece) {
@@ -56,7 +57,18 @@ export default class BoardModel {
     pieceHasRoom(piece, moveDir, rotateDir) {
         //Piece is not moving, so nothing to check.
         if (moveDir == null && rotateDir == null) return true;  
+    
+        let pieceCopy = _.cloneDeep(piece);
         
+        if (moveDir != null) pieceCopy.move(moveDir);
+        if (rotateDir != null) pieceCopy.rotate(rotateDir);
+
+        for (var b in pieceCopy.blocks) {
+            let p = pieceCopy.blocks[b].position;
+            if (this.staticBoard[p.y][p.x].state != BlockState.EMPTY) 
+                return false;
+        }
+
         return true;
     }
 
@@ -144,11 +156,6 @@ export default class BoardModel {
             }
             return result;
         }
-    }
-
-    static copyBoard(fromBoard, toBoard) { 
-        toBoard = JSON.parse(JSON.stringify(fromBoard)); 
-        return toBoard;
     }
   }
   
