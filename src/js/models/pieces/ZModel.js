@@ -1,6 +1,6 @@
 import TetrominoModel from "./TetrominoModel";
-import BlockOrigin from "./BlockOrigin";
-import BlockState from "./BlockState";
+import BlockOrigin from "../blocks/BlockOrigin";
+import BlockState from "../blocks/BlockState";
 
 export default class ZModel extends TetrominoModel {
     

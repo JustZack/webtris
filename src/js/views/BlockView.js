@@ -1,4 +1,4 @@
-import BlockState from "../models/pieces/BlockState";
+import BlockState from "../models/blocks/BlockState";
 
 export default class BlockView extends React.Component {
     constructor(props) {

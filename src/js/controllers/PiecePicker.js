@@ -1,11 +1,11 @@
-import ArrayUtil from "../../util/ArrayUtil";
-import CubeModel from "./CubeModel";
-import IModel from "./IModel";
-import JModel from "./JModel";
-import LModel from "./lModel";
-import SModel from "./SModel";
-import TModel from "./TModel";
-import ZModel from "./ZModel";
+import ArrayUtil from "../util/ArrayUtil";
+import CubeModel from "../models/pieces/CubeModel";
+import IModel from "../models/pieces/IModel";
+import JModel from "../models/pieces/JModel";
+import LModel from "../models/pieces/lModel";
+import SModel from "../models/pieces/SModel";
+import TModel from "../models/pieces/TModel";
+import ZModel from "../models/pieces/ZModel";
 
 export default class PiecePicker {
     static standardPieces = [IModel, LModel, JModel, SModel, ZModel, TModel, CubeModel];

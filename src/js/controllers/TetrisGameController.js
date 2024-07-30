@@ -1,9 +1,9 @@
-import BoardModel from "../models/game/BoardModel";
+import BoardModel from "../models/board/BoardModel";
 import Size from "../util/Size";
 import Point from "../util/Point";
 import BoardView from "../views/BoardView";
 import FallingPieceController from "./FallingPieceController";
-import PiecePicker from "../models/pieces/PiecePicker";
+import PiecePicker from "./PiecePicker";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -18,6 +18,7 @@ export default class TetrisGameController extends React.Component {
         this.doBoardUpdate = this.doBoardUpdate.bind(this);
         this.spawnRandomPiece = this.spawnRandomPiece.bind(this);
         this.getNextPiece = this.getNextPiece.bind(this);
+        this.clearStatics = this.clearStatics.bind(this);
     }
 
     spawnRandomPiece() {

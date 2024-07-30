@@ -1,5 +1,5 @@
-import BlockModel from "../pieces/BlockModel" ;
-import BlockState from "../pieces/BlockState";
+import BlockModel from "../blocks/BlockModel" ;
+import BlockState from "../blocks/BlockState";
 import Point from "../../util/Point";
 import Direction from "../../util/Direction";
 import _ from "lodash";
@@ -49,15 +49,13 @@ export default class BoardModel {
     }
 
     pieceCanMove(piece, moveDir, rotateDir) {
-        return this.pieceStaysOnBoard(piece, moveDir, rotateDir)
-            && this.pieceHasRoom(piece, moveDir, rotateDir);
+        //Piece is not moving, so nothing to check.
+        if (moveDir == null && rotateDir == null) return true;  
+        else return this.pieceStaysOnBoard(piece, moveDir, rotateDir) && this.pieceHasRoom(piece, moveDir, rotateDir);
     }
 
     //Check if the piece has room to do the given move, based on the current board state
     pieceHasRoom(piece, moveDir, rotateDir) {
-        //Piece is not moving, so nothing to check.
-        if (moveDir == null && rotateDir == null) return true;  
-    
         let pieceCopy = _.cloneDeep(piece);
         
         if (moveDir != null) pieceCopy.move(moveDir);
@@ -74,10 +72,8 @@ export default class BoardModel {
 
     //Check if the piece would remain in the board boundry
     pieceStaysOnBoard(piece, moveDir, rotateDir) {
-        //Piece is not moving, so nothing to check.
-        if (moveDir == null && rotateDir == null) return true;
         //Keep from the left wall
-        else if (moveDir == Direction.LEFT) 
+        if (moveDir == Direction.LEFT) 
             return piece.position.x > 0;
         //Keep from right wall
         else if (moveDir == Direction.RIGHT) 
