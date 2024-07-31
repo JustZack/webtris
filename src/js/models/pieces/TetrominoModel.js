@@ -1,6 +1,7 @@
 import Direction from "../../util/Direction";
 import Point from "../../util/Point"
 import BlockModel from "../blocks/BlockModel";
+import BlockState from "../blocks/BlockState";
 import MatrixModel from "./MatrixModel";
 
 export default class TetrominoModel {
@@ -13,6 +14,21 @@ export default class TetrominoModel {
         this.buildPiece();
     }
 
+    as2DArray() {
+        let array = [];
+        let shape = this.matrix.shape;
+        for (let i = 0;i < shape.length;i++) {
+            array.push([]);
+            for (let j = 0;j < shape[i].length;j++) {
+                if (shape[i][j] == 1)
+                    array[i].push(new BlockModel(new Point(j, i), this.colorState))
+                else array[i].push(new BlockModel(new Point(j, i), BlockState.EMPTY))
+            }
+                
+        }
+        return array;
+    }
+
     buildPiece() {
         let shape = this.matrix.shape;
         this.size = this.matrix.size;
@@ -23,6 +39,12 @@ export default class TetrominoModel {
             for (let j = 0;j < shape[i].length;j++)
                 if (shape[i][j] == 1)
                     this.blocks.push(new BlockModel(new Point(p.x+j, p.y+i), this.colorState))
+    }
+
+    setPosition(position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+        this.buildPiece();
     }
 
     move(direction) {

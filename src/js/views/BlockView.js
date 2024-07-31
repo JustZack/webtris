@@ -4,12 +4,10 @@ export default class BlockView extends React.Component {
     constructor(props) {
         super(props);
 
-        let boardOrigin = props.boardOrigin;
         let blockSize = props.blockSize;
         let block = props.block;
         
         this.state = {
-            offset: boardOrigin,
             size: blockSize,
             block: block,
         }

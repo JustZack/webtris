@@ -1,16 +1,20 @@
-import BlockRenderer from "./BlockRenderer";
+import Size from "../util/Size";
+import BoardView from "./BoardView";
+import PieceView from "./PieceView";
 
-export default class NextPieceView extends BlockRenderer {
+export default class NextPieceView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
-    }
-
-    renderBlocks() {
     }
 
     render() {
+        let style = {top: this.props.position.y, left: this.props.position.x, 
+                     width: this.props.size.width, height: this.props.size.height};
+        return (
+            <div className="next-piece" style={style}>
+                <PieceView piece={this.props.piece} blockSize={this.props.blockSize}/>
+            </div>
+        );
     }
   }
   

@@ -11,8 +11,7 @@ export default class BlockRowView extends BlockRenderer {
         let rendered = [];
         for (let i = 0;i < blocks.length;i++) {
             let block = blocks[i];
-            rendered.push(<BlockView boardOrigin={this.props.boardOrigin} key={i}
-                blockSize={this.props.blockSize} block={block}/>);
+            rendered.push(<BlockView key={i} blockSize={this.props.blockSize} block={block}/>);
         }
         return rendered;
     }

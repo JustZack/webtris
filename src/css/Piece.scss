@@ -1,0 +1,17 @@
+.tetris-piece {
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+
+.tetris-piece.empty {
+    background: transparent;
+}
+.next-piece {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+} 

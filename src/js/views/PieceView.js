@@ -1,26 +1,31 @@
 import BlockRenderer from "./BlockRenderer";
+import BlockRowView from "./BlockRowView";
 
 export default class PieceView extends BlockRenderer {
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = { };
     }
 
     renderBlocks() {
+        let rendered = [];
+        let blocks = this.props.piece.as2DArray();
+        for (let i = 0;i < blocks.length;i++) {
+                rendered.push(<BlockRowView key={i} blockSize={this.props.blockSize} blocks={blocks[i]}/>);
+        }
+        return rendered;
     }
 
     render() {
-        let pos = this.state.position;
-        let size = this.state.size;
-        let style = {top: pos.x, left: pos.y, width: size.width, height: size.height};
-        return (
-            <table className="tetris-board" style={style}>
-                <tbody>
-                    {this.renderBlocks()}
-                </tbody>
-            </table>
-        );
+        if (this.props.piece != null) { 
+            return (
+                <table className="tetris-piece">
+                    <tbody>
+                        {this.renderBlocks()}
+                    </tbody>
+                </table>
+            );
+        }
     }
   }
   

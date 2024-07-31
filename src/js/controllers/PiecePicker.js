@@ -10,8 +10,9 @@ import ZModel from "../models/pieces/ZModel";
 export default class PiecePicker {
     static standardPieces = [IModel, LModel, JModel, SModel, ZModel, TModel, CubeModel];
 
-    static getRandomStandardPiece() {
-        return PiecePicker.getRandom(PiecePicker.standardPieces);
+    static spawnRandomStandardPiece(position) {
+        let pieceClass = new PiecePicker.getRandom(PiecePicker.standardPieces);
+        return new pieceClass(position);
     }
 
     static getRandom(piecesArray) {

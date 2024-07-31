@@ -17,7 +17,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <TetrisGameController windowPosition={this.state.position} blockSize={new Size(this.state.blockSideLength, this.state.blockSideLength)} boardSize={new Size(10, 30)}/>
+        <TetrisGameController position={this.state.position} blockSize={new Size(this.state.blockSideLength, this.state.blockSideLength)} boardSize={new Size(10, 30)}/>
       </div>
     );
   }
