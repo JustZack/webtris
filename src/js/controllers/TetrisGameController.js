@@ -19,7 +19,7 @@ export default class TetrisGameController extends React.Component {
             boardModel: new BoardModel(boSize),
             spawnPoint: new Point(4, 0),
             nextPiece: null,
-            levelConfig: GameConfig.Levels[6]
+            levelConfig: GameConfig.Levels[GameConfig.CurrentLevel]
         }
 
         this.getNextPiece = this.getNextPiece.bind(this);
@@ -38,6 +38,10 @@ export default class TetrisGameController extends React.Component {
         toReturn.setPosition(this.state.spawnPoint);
         this.setState({nextPiece: this.spawnRandomPiece()});
         return toReturn;
+    }
+
+    nextLevel() {
+        this.setState({levelConfig: GameConfig.Levels[GameConfig.CurrentLevel++]});
     }
 
     getLevelConfig() {

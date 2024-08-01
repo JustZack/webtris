@@ -1,4 +1,5 @@
 export default class GameConfig {
+    static CurrentLevel = 0;
     static Levels = {
         0: {
             fallTime: 1000,
@@ -18,5 +19,5 @@ export default class GameConfig {
         6: {
             fallTime: 236,
         }
-    }
+    };
 }

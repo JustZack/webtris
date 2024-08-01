@@ -1,16 +1,9 @@
+import GameConfig from "../Game.Config";
 import BlockState from "../models/blocks/BlockState";
 
 export default class BlockView extends React.Component {
     constructor(props) {
         super(props);
-
-        let blockSize = props.blockSize;
-        let block = props.block;
-        
-        this.state = {
-            size: blockSize,
-            block: block,
-        }
     }
 
     static determineColorClass(state) {
@@ -22,7 +15,7 @@ export default class BlockView extends React.Component {
             case BlockState.COLOR_4: 
             case BlockState.COLOR_5: 
             case BlockState.COLOR_6: 
-            case BlockState.COLOR_7: return `filled color-${state}`;
+            case BlockState.COLOR_7: return `filled color-${state}-${GameConfig.CurrentLevel+1}`;
             case BlockState.LAST_STATE: return "default-filled";
             default: return "empty";
         }
@@ -30,7 +23,6 @@ export default class BlockView extends React.Component {
 
     render() {
         let block = this.props.block;
-        let position = block.position;
         let size = this.props.blockSize;
         let w = size.width;
         let h = size.height;
