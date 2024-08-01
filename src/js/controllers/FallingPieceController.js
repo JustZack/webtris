@@ -8,10 +8,14 @@ export default class FallingPieceController extends React.Component {
         super(props);
         this.state = {
             fallingPiece: null,
+            shiftInterval: null
         }
         this.handleGameAction = this.handleGameAction.bind(this);
         this.commitToBoard = this.commitToBoard.bind(this);
         this.tryCommitFallingPiece = this.tryCommitFallingPiece.bind(this);
+        this.shiftDown = this.shiftDown.bind(this);
+        this.startShiftDownTimeout = this.startShiftDownTimeout.bind(this);
+        this.resetShiftDownTimeout = this.resetShiftDownTimeout.bind(this);
     }
 
     commitToBoard(piece) {
@@ -32,6 +36,33 @@ export default class FallingPieceController extends React.Component {
         });
     }
 
+    shiftDown() {
+        this.props.doBoardUpdate((b) => {
+            let piece = this.state.fallingPiece;
+            if (b.pieceCanMove(piece, Direction.DOWN)) {
+                piece.move(Direction.DOWN);
+            } else {
+                this.commitToBoard(piece); 
+                this.resetShiftDownTimeout();
+                piece = this.props.getNextPiece();
+            }
+            b.clearDynamicBoard();
+            b.commitDynamicPiece(piece);
+            this.setState({fallingPiece: piece});
+        });
+    }
+
+    startShiftDownTimeout() {
+        let fallTime = this.props.getLevelConfig().fallTime;
+        let shiftInterval = setInterval(this.shiftDown, fallTime);
+        this.setState({shiftInterval: shiftInterval});
+    }
+
+    resetShiftDownTimeout() {
+        clearInterval(this.state.shiftInterval);
+        this.startShiftDownTimeout();
+    }
+
     handleGameAction(event, gameAction) {
         if (gameAction != false) {
             let piece = this.state.fallingPiece;
@@ -45,12 +76,10 @@ export default class FallingPieceController extends React.Component {
                     case GameAction.MOVE_DOWN:      moveDirection = Direction.DOWN; break;
                     case GameAction.ROTATE_LEFT:    rotateDirection = Direction.LEFT; break;
                     case GameAction.ROTATE_RIGHT:   rotateDirection = Direction.RIGHT; break;
-                    case GameAction.PLACE_PIECE:    
-                        this.commitToBoard(piece); piece = this.props.getNextPiece();
-                        break;
                 }
             } else if (gameAction == GameAction.MAKE_PIECE) {
                 piece = this.props.getNextPiece();
+                this.startShiftDownTimeout();
             }
             if (piece != null) {
                 this.tryCommitFallingPiece(piece, moveDirection, rotateDirection);
