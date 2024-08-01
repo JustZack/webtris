@@ -10,9 +10,12 @@ import BoardController from "./BoardController";
 export default class TetrisGameController extends React.Component {
     constructor(props) {
         super(props);
+        let boSize = this.props.boardSize;
+        let blSize = this.props.blockSize;
         this.state = {
-            nextPieceWindowPosition: props.position.offset(new Point(10*this.props.blockSize.width, 150)),
-            boardModel: new BoardModel(new Size(10, 30)),
+            nextPieceWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/3)),
+            nextPieceSize: new Size(blSize.width*5, blSize.height*3),
+            boardModel: new BoardModel(boSize),
             spawnPoint: new Point(4, 0),
             nextPiece: null
         }
@@ -37,8 +40,10 @@ export default class TetrisGameController extends React.Component {
     render() {
         return (
             <div>
-                <BoardController position={this.props.position} blockSize={this.props.blockSize} 
-                                nextPiece={this.state.nextPiece} getNextPiece={this.getNextPiece}/>
+                <BoardController position={this.props.position} blockSize={this.props.blockSize}
+                                getNextPiece={this.getNextPiece}/>
+                <NextPieceView position={this.state.nextPieceWindowPosition} size={this.state.nextPieceSize} 
+                                piece={this.state.nextPiece} blockSize={this.props.blockSize}/>
             </div>
         )
     }

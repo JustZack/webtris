@@ -3,7 +3,7 @@ import BlockRenderer from "./BlockRenderer";
 import BlockRowView from "./BlockRowView";
 
 
-export default class BoardView extends BlockRenderer {
+export default class BoardView extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,26 +19,12 @@ export default class BoardView extends BlockRenderer {
         }
     }
 
-    renderBlocks() {
-        let rendered = [];
-        let blocks = this.props.board.getBlocks();
-        for (let i = 0;i < blocks.length;i++) {
-                rendered.push(<BlockRowView key={i} blockSize={this.props.blockSize} blocks={blocks[i]}/>);
-        }
-        return rendered;
-    }
-
     render() {
         let pos = this.props.position;
         let size = this.state.size;
         let style = {top: pos.y, left: pos.x, width: size.width, height: size.height};
-        return (
-            <table className="tetris-board" style={style}>
-                <tbody>
-                    {this.renderBlocks()}
-                </tbody>
-            </table>
-        );
+        let blocks = this.props.board.getBlocks();
+        return BlockRenderer.renderMatrix(blocks, this.props.blockSize, "tetris-board", style);
     }
   }
   
