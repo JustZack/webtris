@@ -11,8 +11,7 @@ export default class BoardController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            boardModel: new BoardModel(new Size(10, 30)),
-            spawnPoint: new Point(4, 0),
+            boardModel: new BoardModel(this.props.boardSize),
         }
         this.doBoardUpdate = this.doBoardUpdate.bind(this);
         this.clearBoard = this.clearBoard.bind(this);

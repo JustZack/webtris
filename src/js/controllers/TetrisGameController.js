@@ -15,8 +15,7 @@ export default class TetrisGameController extends React.Component {
         let blSize = this.props.blockSize;
         this.state = {
             nextPieceWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/3)),
-            nextPieceSize: new Size(blSize.width*5, blSize.height*3),
-            boardModel: new BoardModel(boSize),
+            nextPieceSize: new Size(blSize.width*5, blSize.height*4),
             spawnPoint: new Point(4, 0),
             nextPiece: null,
             levelConfig: GameConfig.Levels[GameConfig.CurrentLevel]
@@ -24,6 +23,7 @@ export default class TetrisGameController extends React.Component {
 
         this.getNextPiece = this.getNextPiece.bind(this);
         this.getLevelConfig = this.getLevelConfig.bind(this);
+        this.nextLevel = this.nextLevel.bind(this);
     }
 
     spawnRandomPiece() {
@@ -51,7 +51,8 @@ export default class TetrisGameController extends React.Component {
     render() {
         return (
             <div>
-                <BoardController position={this.props.position} blockSize={this.props.blockSize}
+                <button onClick={this.nextLevel}>Next Level</button>
+                <BoardController position={this.props.position} boardSize={this.props.boardSize} blockSize={this.props.blockSize}
                                 getNextPiece={this.getNextPiece} getLevelConfig={this.getLevelConfig}/>
                 <NextPieceView position={this.state.nextPieceWindowPosition} size={this.state.nextPieceSize} 
                                 piece={this.state.nextPiece} blockSize={this.props.blockSize}/>

@@ -4,6 +4,8 @@ const GameAction = {
     MOVE_RIGHT: "MOVE_RIGHT",
     MOVE_DOWN: "MOVE_DOWN",
 
+    FAST_FALL: "FAST_FALL",
+
     ROTATE_LEFT: "ROTATE_LEFT",
     ROTATE_RIGHT: "ROTATE_RIGHT",
 

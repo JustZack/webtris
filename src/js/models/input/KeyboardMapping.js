@@ -5,16 +5,19 @@ const KeyboardMapping = {
     MOVE_UP: [87, 38],
     //D, Right Arrow
     MOVE_RIGHT: [68, 39],
-    //S, Down Arrow
-    MOVE_DOWN: [83, 40],
+    //None, not applicable
+    MOVE_DOWN: [],
+
+    //Space, S, Down Arrow
+    FAST_FALL: [32, 83, 40],
 
     //Q, <
     ROTATE_LEFT: [81, 188],
     //E, >
     ROTATE_RIGHT: [69, 190],
 
-    //Space
-    PLACE_PIECE: [32],
+    //None (testing control)
+    PLACE_PIECE: [],
     //R
     MAKE_PIECE: [82]
 }

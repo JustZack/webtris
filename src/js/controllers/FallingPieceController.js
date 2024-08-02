@@ -8,20 +8,33 @@ export default class FallingPieceController extends React.Component {
         super(props);
         this.state = {
             fallingPiece: null,
-            shiftInterval: null
+            shiftInterval: null,
+            isFastFalling: false
         }
-        this.handleGameAction = this.handleGameAction.bind(this);
         this.commitToBoard = this.commitToBoard.bind(this);
+        this.commitToDynamicBoard = this.commitToDynamicBoard.bind(this);
         this.tryCommitFallingPiece = this.tryCommitFallingPiece.bind(this);
         this.shiftDown = this.shiftDown.bind(this);
         this.startShiftDownTimeout = this.startShiftDownTimeout.bind(this);
+        this.startFastFallTimeout = this.startFastFallTimeout.bind(this);
         this.resetShiftDownTimeout = this.resetShiftDownTimeout.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
     commitToBoard(piece) {
         this.props.doBoardUpdate((b) => {
             b.clearDynamicBoard();
             b.commitStaticPiece(piece);
+        });
+        let callback = this.state.isFastFalling ? this.startFastFallTimeout : this.startShiftDownTimeout;
+        this.resetShiftDownTimeout(callback);
+    }
+
+    commitToDynamicBoard(piece) {
+        this.props.doBoardUpdate((b) => {
+            b.clearDynamicBoard();
+            b.commitDynamicPiece(piece);
         });
     }
 
@@ -43,11 +56,9 @@ export default class FallingPieceController extends React.Component {
                 piece.move(Direction.DOWN);
             } else {
                 this.commitToBoard(piece); 
-                this.resetShiftDownTimeout();
                 piece = this.props.getNextPiece();
             }
-            b.clearDynamicBoard();
-            b.commitDynamicPiece(piece);
+            this.commitToDynamicBoard(piece);
             this.setState({fallingPiece: piece});
         });
     }
@@ -55,25 +66,45 @@ export default class FallingPieceController extends React.Component {
     startShiftDownTimeout() {
         let fallTime = this.props.getLevelConfig().fallTime;
         let shiftInterval = setInterval(this.shiftDown, fallTime);
-        this.setState({shiftInterval: shiftInterval});
+        this.setState({shiftInterval: shiftInterval, isFastFalling: false});
     }
 
-    resetShiftDownTimeout() {
+    startFastFallTimeout() {
+        let cfg = this.props.getLevelConfig();
+        let fallTime = cfg.fallTime*cfg.fastFallFactor;
+        let shiftInterval = setInterval(this.shiftDown, fallTime);
+        this.setState({shiftInterval: shiftInterval, isFastFalling: true});
+    }
+
+    resetShiftDownTimeout(shiftDownStartFunction) {
         clearInterval(this.state.shiftInterval);
-        this.startShiftDownTimeout();
+        shiftDownStartFunction();
     }
 
-    handleGameAction(event, gameAction) {
+    //Some controls act like toggles while held down
+    handleKeyUp(event, gameAction) {
+        if (gameAction != false) {
+            let piece = this.state.fallingPiece;
+            if (piece != null) {
+                if (gameAction == GameAction.FAST_FALL) {
+                    if (this.state.isFastFalling) this.resetShiftDownTimeout(this.startShiftDownTimeout);
+                }
+            }
+        }
+    }
+
+    handleKeyDown(event, gameAction) {
         if (gameAction != false) {
             let piece = this.state.fallingPiece;
             let moveDirection = null;
             let rotateDirection = null;
             if (piece != null) {
                 switch (gameAction) {
+                    case GameAction.FAST_FALL:      
+                        if (!this.state.isFastFalling) this.resetShiftDownTimeout(this.startFastFallTimeout);
+                        return;
                     case GameAction.MOVE_LEFT:      moveDirection = Direction.LEFT; break;
-                    case GameAction.MOVE_UP:        moveDirection = Direction.UP; break;
                     case GameAction.MOVE_RIGHT:     moveDirection = Direction.RIGHT; break;
-                    case GameAction.MOVE_DOWN:      moveDirection = Direction.DOWN; break;
                     case GameAction.ROTATE_LEFT:    rotateDirection = Direction.LEFT; break;
                     case GameAction.ROTATE_RIGHT:   rotateDirection = Direction.RIGHT; break;
                 }
@@ -89,7 +120,7 @@ export default class FallingPieceController extends React.Component {
     }
 
     render() {
-        return (<InputController mapping={KeyboardMapping} callback={this.handleGameAction}/>)
+        return (<InputController mapping={KeyboardMapping} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}/>)
     }
   }
   

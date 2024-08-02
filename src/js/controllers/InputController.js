@@ -5,21 +5,20 @@ export default class InputController extends React.Component {
     
     constructor(props) {
         super(props);
-        //commitPiece={this.appendPiece} clearFallingPieces={this.clearDynamics}
-        this.state = {
-            mapping: this.props.mapping
-        }
+        this.state = { mapping: this.props.mapping }
         this.handleKeyDown = this.handleKeyDown.bind(this);
-
+        this.handleKeyUp = this.handleKeyUp.bind(this);
         this.getGameActionForButton = this.getGameActionForButton.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
+        window.addEventListener("keyup", this.handleKeyUp);
     }
     
     componentWillUnmount() {
         window.removeEventListener("keydown", this.handleKeyDown);
+        window.removeEventListener("keyup", this.handleKeyUp);
     }
 
     getGameActionForButton(event) {
@@ -31,9 +30,12 @@ export default class InputController extends React.Component {
         return false;
     }
 
-
     handleKeyDown(event) {
-        this.props.callback(event, this.getGameActionForButton(event));
+        this.props.onKeyDown(event, this.getGameActionForButton(event));
+    }
+
+    handleKeyUp(event) {
+        this.props.onKeyUp(event, this.getGameActionForButton(event));
     }
 
     render() { }
