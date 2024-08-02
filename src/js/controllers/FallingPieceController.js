@@ -27,6 +27,7 @@ export default class FallingPieceController extends React.Component {
             b.clearDynamicBoard();
             b.commitStaticPiece(piece);
         });
+        this.props.checkForFullRows();
         let callback = this.state.isFastFalling ? this.startFastFallTimeout : this.startShiftDownTimeout;
         this.resetShiftDownTimeout(callback);
     }
@@ -50,17 +51,22 @@ export default class FallingPieceController extends React.Component {
     }
 
     shiftDown() {
-        this.props.doBoardUpdate((b) => {
-            let piece = this.state.fallingPiece;
-            if (b.pieceCanMove(piece, Direction.DOWN)) {
-                piece.move(Direction.DOWN);
-            } else {
-                this.commitToBoard(piece); 
-                piece = this.props.getNextPiece();
-            }
-            this.commitToDynamicBoard(piece);
-            this.setState({fallingPiece: piece});
-        });
+        //Only shift down if we are not paused
+        //  -Either because the game is paused
+        //  -Or peices are shifting
+        if (!this.props.isPaused()) {
+            this.props.doBoardUpdate((b) => {
+                let piece = this.state.fallingPiece;
+                if (b.pieceCanMove(piece, Direction.DOWN)) {
+                    piece.move(Direction.DOWN);
+                } else {
+                    this.commitToBoard(piece); 
+                    piece = this.props.getNextPiece();
+                }
+                this.commitToDynamicBoard(piece);
+                this.setState({fallingPiece: piece});
+            });
+        }
     }
 
     startShiftDownTimeout() {

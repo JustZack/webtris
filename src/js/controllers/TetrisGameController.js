@@ -18,12 +18,16 @@ export default class TetrisGameController extends React.Component {
             nextPieceSize: new Size(blSize.width*5, blSize.height*4),
             spawnPoint: new Point(4, 0),
             nextPiece: null,
-            levelConfig: GameConfig.Levels[GameConfig.CurrentLevel]
+            levelConfig: GameConfig.Levels[GameConfig.CurrentLevel],
+            pauseGame: false
         }
 
         this.getNextPiece = this.getNextPiece.bind(this);
         this.getLevelConfig = this.getLevelConfig.bind(this);
         this.nextLevel = this.nextLevel.bind(this);
+        this.togglePaused = this.togglePaused.bind(this);
+        this.isPaused = this.isPaused.bind(this);
+        
     }
 
     spawnRandomPiece() {
@@ -48,12 +52,16 @@ export default class TetrisGameController extends React.Component {
         return this.state.levelConfig;
     }
 
+    togglePaused() { this.setState({pauseGame: true}); }
+    isPaused() { return this.state.pauseGame; }
+
     render() {
         return (
             <div>
                 <button onClick={this.nextLevel}>Next Level</button>
                 <BoardController position={this.props.position} boardSize={this.props.boardSize} blockSize={this.props.blockSize}
-                                getNextPiece={this.getNextPiece} getLevelConfig={this.getLevelConfig}/>
+                                getNextPiece={this.getNextPiece} getLevelConfig={this.getLevelConfig} 
+                                isPaused={this.isPaused} togglePaused={this.togglePaused}/>
                 <NextPieceView position={this.state.nextPieceWindowPosition} size={this.state.nextPieceSize} 
                                 piece={this.state.nextPiece} blockSize={this.props.blockSize}/>
             </div>

@@ -48,6 +48,56 @@ export default class BoardModel {
         this.staticBoard = BoardModel.setBlockState(this.staticBoard, position, state)
     }
 
+    hasFullRows() {
+        for (let row in this.staticBoard) {
+            let rowFull = true;
+            for (let b in this.staticBoard[row]) {
+                let block = this.staticBoard[row][b];
+                if (block.state == BlockState.EMPTY) {
+                    rowFull = false;
+                    break;
+                }
+            }
+            if (rowFull) return true;
+        }
+        return false;
+    }
+
+    isTetris() {
+
+    }
+
+    shiftDownFromRow(rowIndex) {
+        console.log("shift row " + rowIndex);
+        for (let i = rowIndex-1;i >= 0;i--) {
+            let rowEmpty = true;
+            for (let b = 0;b < this.staticBoard[i].length;b++) {
+                let thisBlock = this.staticBoard[i][b];
+                let belowBlock = this.staticBoard[i+1][b];
+                if (thisBlock.state != BlockState.EMPTY) rowEmpty = false;
+                belowBlock.state = thisBlock.state;
+                thisBlock.state = BlockState.EMPTY;
+            }
+            //If we found a row that STARTED empty, its safe to say all rows above it are too.
+            if (rowEmpty) break;
+        }
+    }
+
+    shiftFullRows() {
+        for (let row in this.staticBoard) {
+            let rowFull = true;
+            for (let b in this.staticBoard[row]) {
+                let block = this.staticBoard[row][b];
+                if (block.state == BlockState.EMPTY) {
+                    rowFull = false;
+                    break;
+                }
+            }
+            if (rowFull) this.shiftDownFromRow(row);
+        }
+        return false;
+    }
+
     pieceCanMove(piece, moveDir, rotateDir) {
         //Piece is not moving, so nothing to check.
         if (moveDir == null && rotateDir == null) return true;  
@@ -153,5 +203,5 @@ export default class BoardModel {
             return result;
         }
     }
-  }
+}
   

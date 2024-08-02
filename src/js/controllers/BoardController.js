@@ -15,6 +15,7 @@ export default class BoardController extends React.Component {
         }
         this.doBoardUpdate = this.doBoardUpdate.bind(this);
         this.clearBoard = this.clearBoard.bind(this);
+        this.checkForFullRows = this.checkForFullRows.bind(this);
     }
 
     doBoardUpdate(callback) {
@@ -22,6 +23,16 @@ export default class BoardController extends React.Component {
         let result = callback(b);
         this.setState({boardModel: b});
         return result;
+    }
+
+    checkForFullRows() {
+        let b = this.state.boardModel;
+        if (b.hasFullRows()) {
+            console.log("I see full rows!");
+            b.shiftFullRows();
+            this.setState({boardModel: b});
+        }
+        else console.log("no full rows");
     }
 
     clearBoard() {
@@ -32,7 +43,10 @@ export default class BoardController extends React.Component {
         return (
             <div>
                 <button onClick={this.clearBoard}>Clear Board</button>
-                <FallingPieceController doBoardUpdate={this.doBoardUpdate} getNextPiece={this.props.getNextPiece} getLevelConfig={this.props.getLevelConfig}/>
+                <button onClick={this.clearBoard}>Clear Board</button>
+                <FallingPieceController doBoardUpdate={this.doBoardUpdate} getNextPiece={this.props.getNextPiece} 
+                                        getLevelConfig={this.props.getLevelConfig} isPaused={this.props.isPaused}
+                                        checkForFullRows={this.checkForFullRows}/>
                 <BoardView position={this.props.position} board={this.state.boardModel} blockSize={this.props.blockSize}/>
             </div>
         )
