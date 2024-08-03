@@ -1,29 +1,30 @@
 export default class GameConfig {
+    static rowClearDelay = 50;
     static CurrentLevel = 0;
     static Levels = {
         0: {
             fallTime: 500,
-            fastFallFactor: .1
+            fastFallDivisor: 10
         },
         1: {
             fallTime: 400,
-            fastFallFactor: .15
+            fastFallDivisor: 6
         },
         3: {
             fallTime: 325,
-            fastFallFactor: .2
+            fastFallDivisor: 5
         },
         4: {
             fallTime: 250,
-            fastFallFactor: .25
+            fastFallDivisor: 4
         },
         5: {
             fallTime: 200,
-            fastFallFactor: .3
+            fastFallDivisor: 3
         },
         6: {
             fallTime: 150,
-            fastFallFactor: .35
+            fastFallDivisor: 2.5
         }
     };
 }

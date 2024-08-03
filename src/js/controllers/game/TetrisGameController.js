@@ -1,9 +1,9 @@
-import Size from "../util/Size";
-import Point from "../util/Point";
-import PiecePicker from "./PiecePicker";
-import NextPieceView from "../views/NextPieceView";
-import BoardController from "./BoardController";
-import GameConfig from "../Game.Config";
+import Size from "../../util/Size";
+import Point from "../../util/Point";
+import PiecePicker from "../piece/PiecePicker";
+import NextPieceView from "../../views/NextPieceView";
+import BoardController from "../board/BoardController";
+import GameConfig from "../../configs/Game.Config";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {

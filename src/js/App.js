@@ -2,7 +2,7 @@ import Board from "./views/BoardView";
 import Point from "./util/Point";
 import Size from "./util/Size";
 import "../css/App.scss"
-import TetrisGameController from "./controllers/TetrisGameController";
+import TetrisGameController from "./controllers/game/TetrisGameController";
 
 export default class App extends React.Component {
   constructor(props) {

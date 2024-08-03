@@ -1,7 +1,7 @@
-import InputController from "./InputController";
-import KeyboardMapping from "../models/input/KeyboardMapping";
-import GameAction from "../models/input/GameAction";
-import Direction from "../util/Direction";
+import InputController from "../input/InputController";
+import KeyboardMapping from "../../configs/input/KeyboardMapping";
+import GameAction from "../../configs/input/GameAction";
+import Direction from "../../util/Direction";
 
 export default class FallingPieceController extends React.Component {
     constructor(props) {
@@ -15,6 +15,7 @@ export default class FallingPieceController extends React.Component {
         this.commitToDynamicBoard = this.commitToDynamicBoard.bind(this);
         this.tryCommitFallingPiece = this.tryCommitFallingPiece.bind(this);
         this.shiftDown = this.shiftDown.bind(this);
+        this.startShiftTimeout = this.startShiftTimeout.bind(this);
         this.startShiftDownTimeout = this.startShiftDownTimeout.bind(this);
         this.startFastFallTimeout = this.startFastFallTimeout.bind(this);
         this.resetShiftDownTimeout = this.resetShiftDownTimeout.bind(this);
@@ -69,18 +70,16 @@ export default class FallingPieceController extends React.Component {
         }
     }
 
-    startShiftDownTimeout() {
-        let fallTime = this.props.getLevelConfig().fallTime;
+    startShiftTimeout(fastFall) {
+        let levelCfg = this.props.getLevelConfig();
+        let fallTime = levelCfg.fallTime/(fastFall ? levelCfg.fastFallDivisor : 1);
         let shiftInterval = setInterval(this.shiftDown, fallTime);
-        this.setState({shiftInterval: shiftInterval, isFastFalling: false});
+        this.setState({shiftInterval: shiftInterval, isFastFalling: fastFall});
     }
 
-    startFastFallTimeout() {
-        let cfg = this.props.getLevelConfig();
-        let fallTime = cfg.fallTime*cfg.fastFallFactor;
-        let shiftInterval = setInterval(this.shiftDown, fallTime);
-        this.setState({shiftInterval: shiftInterval, isFastFalling: true});
-    }
+    startShiftDownTimeout() { this.startShiftTimeout(false); }
+
+    startFastFallTimeout() { this.startShiftTimeout(true); }
 
     resetShiftDownTimeout(shiftDownStartFunction) {
         clearInterval(this.state.shiftInterval);

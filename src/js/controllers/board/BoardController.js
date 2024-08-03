@@ -1,8 +1,9 @@
-import BoardModel from "../models/board/BoardModel";
-import FallingPieceController from "./FallingPieceController";
-import BoardView from "../views/BoardView";
-import BlockState from "../models/blocks/BlockState";
-import { sleep } from "../util/Sleep";
+import BoardModel from "../../models/board/BoardModel";
+import FallingPieceController from "../piece/FallingPieceController";
+import BoardView from "../../views/BoardView";
+import BlockState from "../../models/blocks/BlockState";
+import { sleep } from "../../util/Sleep";
+import TypeOf from "../../util/TypeOf";
 
 export default class BoardController extends React.Component {
     
@@ -15,6 +16,7 @@ export default class BoardController extends React.Component {
         this.clearBoard = this.clearBoard.bind(this);
         this.checkForFullRows = this.checkForFullRows.bind(this);
         this.flashFullRows = this.flashFullRows.bind(this);
+        this.clearFullRows = this.clearFullRows.bind(this);
         this.flashRows = this.flashRows.bind(this);
         this.setRowsState = this.setRowsState.bind(this);
         
@@ -30,7 +32,39 @@ export default class BoardController extends React.Component {
     checkForFullRows() {
         let b = this.state.boardModel;
         let fullRows = b.getFullRows();
-        if (fullRows.length > 0) this.flashFullRows(fullRows, b);
+        if (fullRows.length > 0) this.clearFullRows(fullRows, b);
+    }
+
+    async clearFullRows(fullRows, b) {
+        this.props.togglePaused();
+        await this.clearRowsMiddleOut(0, fullRows, b, 50, () => {
+            b.shiftDownRows(fullRows);
+            this.setState({boardModel: b});
+            this.props.togglePaused();
+        });
+    }
+
+
+    async clearRowsMiddleOut(distanceFromMiddle, rows, b, delay, completeCallback) {
+        let halfWidth = Math.floor(b.size.width/2);
+        if (distanceFromMiddle >= halfWidth) completeCallback();
+        else {
+            let rowStates = [];
+            let isEven = b.size.width%2 == 0;
+            for (let r in rows) {
+                let rowState = b.getRowState(rows[r]);
+                if (isEven) rowState[halfWidth-(distanceFromMiddle+1)] = BlockState.EMPTY;
+                else        rowState[halfWidth-distanceFromMiddle] = BlockState.EMPTY;
+                rowState[halfWidth+distanceFromMiddle] = BlockState.EMPTY;
+                rowStates.push(rowState);
+            }
+
+            this.setRowsState(rows, b, rowStates, async () => {
+                await sleep(delay);
+                this.clearRowsMiddleOut(distanceFromMiddle+1, rows, b, delay, completeCallback); 
+            });
+        }
+
     }
 
     async flashFullRows(fullRows, b) {
@@ -55,7 +89,16 @@ export default class BoardController extends React.Component {
     }
 
     setRowsState(rows, b, state, callback) {
-        b.setManyRowsState(rows, state);
+        let isSingleState = typeof(state) == TypeOf.NUMBER;
+        let isStateList = !isSingleState && typeof(state) == TypeOf.OBJECT;
+        let isListOfStateLists = isStateList && typeof(state[0]) == TypeOf.OBJECT;
+        
+        if (isListOfStateLists) {
+            for (let r in rows) b.setRowState(rows[r], state[r])
+        } else if (isSingleState || isStateList) {
+            b.setManyRowsState(rows, state);
+        }
+
         this.setState({boardModel: b}, callback);
     }
 

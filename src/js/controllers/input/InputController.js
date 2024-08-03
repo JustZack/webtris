@@ -1,4 +1,4 @@
-import GameAction from "../models/input/GameAction";
+import GameAction from "../../configs/input/GameAction";
 
 export default class InputController extends React.Component {
     

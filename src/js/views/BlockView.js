@@ -1,4 +1,4 @@
-import GameConfig from "../Game.Config";
+import GameConfig from "../configs/Game.Config";
 import BlockState from "../models/blocks/BlockState";
 
 export default class BlockView extends React.Component {
