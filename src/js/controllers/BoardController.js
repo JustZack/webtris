@@ -1,9 +1,5 @@
-import PiecePicker from "./PiecePicker";
-import Size from "../util/Size";
-import Point from "../util/Point";
 import BoardModel from "../models/board/BoardModel";
 import FallingPieceController from "./FallingPieceController";
-import NextPieceView from "../views/NextPieceView";
 import BoardView from "../views/BoardView";
 import BlockState from "../models/blocks/BlockState";
 import { sleep } from "../util/Sleep";
@@ -39,7 +35,7 @@ export default class BoardController extends React.Component {
 
     async flashFullRows(fullRows, b) {
         this.props.togglePaused();
-        await this.flashRows(5, fullRows, b, 100, () => {
+        await this.flashRows(10, fullRows, b, 50, () => {
             b.shiftDownRows(fullRows);
             this.setState({boardModel: b});
             this.props.togglePaused();
@@ -70,7 +66,6 @@ export default class BoardController extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.clearBoard}>Clear Board</button>
                 <button onClick={this.clearBoard}>Clear Board</button>
                 <FallingPieceController doBoardUpdate={this.doBoardUpdate} getNextPiece={this.props.getNextPiece} 
                                         getLevelConfig={this.props.getLevelConfig} isPaused={this.props.isPaused}

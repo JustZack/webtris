@@ -1,8 +1,5 @@
-import BoardModel from "../models/board/BoardModel";
 import Size from "../util/Size";
 import Point from "../util/Point";
-import BoardView from "../views/BoardView";
-import FallingPieceController from "./FallingPieceController";
 import PiecePicker from "./PiecePicker";
 import NextPieceView from "../views/NextPieceView";
 import BoardController from "./BoardController";
@@ -19,7 +16,8 @@ export default class TetrisGameController extends React.Component {
             spawnPoint: new Point(4, 0),
             nextPiece: null,
             levelConfig: GameConfig.Levels[GameConfig.CurrentLevel],
-            pauseGame: false
+            pauseGame: false,
+
         }
 
         this.getNextPiece = this.getNextPiece.bind(this);
