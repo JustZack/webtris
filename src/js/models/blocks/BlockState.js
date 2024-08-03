@@ -7,5 +7,7 @@ export default class BlockState {
     static COLOR_5 = 5;
     static COLOR_6 = 6;
     static COLOR_7 = 7;
-    static LAST_STATE = 8;
+    static COMPLETE_ROW_LIGHT = 8;
+    static COMPLETE_ROW_DARK = 9;
+    static LAST_STATE = 10;
 }

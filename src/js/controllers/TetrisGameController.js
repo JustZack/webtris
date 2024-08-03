@@ -52,7 +52,9 @@ export default class TetrisGameController extends React.Component {
         return this.state.levelConfig;
     }
 
-    togglePaused() { this.setState({pauseGame: true}); }
+    togglePaused() { 
+        this.setState({pauseGame: !this.state.pauseGame}); 
+    }
     isPaused() { return this.state.pauseGame; }
 
     render() {

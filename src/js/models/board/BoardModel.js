@@ -3,6 +3,7 @@ import BlockState from "../blocks/BlockState";
 import Point from "../../util/Point";
 import Direction from "../../util/Direction";
 import _ from "lodash";
+import TypeOf from "../../util/TypeOf";
 
 export default class BoardModel {
     constructor(size) {
@@ -25,9 +26,37 @@ export default class BoardModel {
         return blocks;
     }
 
+
+
     getBlocks() { 
         return BoardModel.combineBoards(this.staticBoard, this.dynamicBoard); 
     }
+
+
+    
+    getFullRows() {
+        let fullRows = []
+        for (let row in this.staticBoard)
+            if (!this.getRowState(row).includes(BlockState.EMPTY)) 
+                fullRows.push(row);
+        return fullRows;
+    }
+
+    shiftDownRow(rowIndex) {
+        for (let i = rowIndex-1;i >= 0;i--) {
+            let thisRowState = this.getRowState(i);
+            this.setRowState(i+1, thisRowState);
+            //If the last row shifted down was empty break out of the loop
+            let uniqueState = new Set(thisRowState);
+            if (thisRowState[0] == BlockState.EMPTY && uniqueState.length == 0) break;
+        }
+    }
+
+    shiftDownRows(rows) {
+        for (let r in rows.sort()) this.shiftDownRow(rows[r]);
+    }
+
+
 
     clearStaticBoard() {
         this.staticBoard = _.cloneDeep(this.emptyBoard);
@@ -48,55 +77,7 @@ export default class BoardModel {
         this.staticBoard = BoardModel.setBlockState(this.staticBoard, position, state)
     }
 
-    hasFullRows() {
-        for (let row in this.staticBoard) {
-            let rowFull = true;
-            for (let b in this.staticBoard[row]) {
-                let block = this.staticBoard[row][b];
-                if (block.state == BlockState.EMPTY) {
-                    rowFull = false;
-                    break;
-                }
-            }
-            if (rowFull) return true;
-        }
-        return false;
-    }
 
-    isTetris() {
-
-    }
-
-    shiftDownFromRow(rowIndex) {
-        console.log("shift row " + rowIndex);
-        for (let i = rowIndex-1;i >= 0;i--) {
-            let rowEmpty = true;
-            for (let b = 0;b < this.staticBoard[i].length;b++) {
-                let thisBlock = this.staticBoard[i][b];
-                let belowBlock = this.staticBoard[i+1][b];
-                if (thisBlock.state != BlockState.EMPTY) rowEmpty = false;
-                belowBlock.state = thisBlock.state;
-                thisBlock.state = BlockState.EMPTY;
-            }
-            //If we found a row that STARTED empty, its safe to say all rows above it are too.
-            if (rowEmpty) break;
-        }
-    }
-
-    shiftFullRows() {
-        for (let row in this.staticBoard) {
-            let rowFull = true;
-            for (let b in this.staticBoard[row]) {
-                let block = this.staticBoard[row][b];
-                if (block.state == BlockState.EMPTY) {
-                    rowFull = false;
-                    break;
-                }
-            }
-            if (rowFull) this.shiftDownFromRow(row);
-        }
-        return false;
-    }
 
     pieceCanMove(piece, moveDir, rotateDir) {
         //Piece is not moving, so nothing to check.
@@ -157,12 +138,54 @@ export default class BoardModel {
         this.dynamicBoard = BoardModel.setBlockState(this.dynamicBoard, position, state)
     }
 
+
+
+    setManyRowsState(rowIndexes, state) {
+        for (let r in rowIndexes) this.setRowState(rowIndexes[r], state);
+    }
+
+    setRowState(rowIndex, state) {
+        let board = this.staticBoard;
+        if (BoardModel.pointOutOfBounds(board, undefined, rowIndex)) {
+            throw `Tried setting row index ${rowIndex} on board with ${board.length} rows.\n`;
+        } else {
+            let theRow = board[rowIndex];
+            //Allow passing a single state to fill the row or an array of states
+            if (typeof(state) == TypeOf.NUMBER) state = Array(theRow.length).fill(state);
+            if (state.length != theRow.length) {
+                throw `Tried setting row ${rowIndex} with ${state.length} states, but the row is ${theRow.length} wide.`;
+            } else {
+                for (let b in theRow) board = BoardModel.setBlockState(board, theRow[b].position, state[b]);
+            }
+        }
+    }
+
+    getRowState(rowIndex) {
+        let board = this.staticBoard;
+        if (BoardModel.pointOutOfBounds(board, undefined, rowIndex)) {
+            throw `Tried getting row index ${rowIndex} on board with ${board.length} rows.\n`;
+        } else {
+            let theRow = board[rowIndex];
+            let state = Array(theRow.length).fill(BlockState.EMPTY);
+            //Allow passing a single state to fill the row or an array of states
+            for (let b in theRow) state[b] = theRow[b].state;
+            return state;
+        }
+    }
+
+    static pointOutOfBounds(board, x, y) {
+        if (x == undefined) x = 0;
+        if (y == undefined) y = 0;
+        if (x < 0 || x > board[0].length) return true;
+        else if (y < 0 || y > board.length) return true;
+        return false;
+    }
+    
     static setBlockState(board, position, state) {
-        let w = board[0].length, h = board.length;
-        if (position.x >= w || position.y >= h) {
+        if (BoardModel.pointOutOfBounds(board, position.x, position.y)) {
             throw `Tried Setting a block outside the game board.\n` +
                     `\tBlock(x: ${position.x}, y: ${position.y})\n` +
-                    `\tBoard Size(width: ${w}, height: ${h})`;
+                    `\tBoard Size(width: ${board[0].length}, height: ${board.length})`;
         } else if (state < BlockState.EMPTY || state > BlockState.LAST_STATE) {
             throw `Tried Setting an invalid block state: ${state}`;
         } else {
