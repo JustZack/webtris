@@ -19,6 +19,7 @@ export default class FallingPieceController extends React.Component {
         this.startShiftDownTimeout = this.startShiftDownTimeout.bind(this);
         this.startFastFallTimeout = this.startFastFallTimeout.bind(this);
         this.resetShiftDownTimeout = this.resetShiftDownTimeout.bind(this);
+        this.canAcceptInput = this.canAcceptInput.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
     }
@@ -86,9 +87,13 @@ export default class FallingPieceController extends React.Component {
         shiftDownStartFunction();
     }
 
+    canAcceptInput(gameAction) {
+        return gameAction != false && !this.props.isPaused()
+    }
+
     //Some controls act like toggles while held down
     handleKeyUp(event, gameAction) {
-        if (gameAction != false) {
+        if (this.canAcceptInput(gameAction)) {
             let piece = this.state.fallingPiece;
             if (piece != null) {
                 if (gameAction == GameAction.FAST_FALL) {
@@ -99,7 +104,7 @@ export default class FallingPieceController extends React.Component {
     }
 
     handleKeyDown(event, gameAction) {
-        if (gameAction != false) {
+        if (this.canAcceptInput(gameAction)) {
             let piece = this.state.fallingPiece;
             let moveDirection = null;
             let rotateDirection = null;
