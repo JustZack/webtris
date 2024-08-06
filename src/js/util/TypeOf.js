@@ -9,4 +9,8 @@ export default class TypeOf {
     static UNDEFINED = "undefined";
     //This looks weird, but typeof(null) returns object
     static NULL = TypeOf.OBJECT;
+
+    getClass(object) { 
+        return object.constructor;
+    }
 }
