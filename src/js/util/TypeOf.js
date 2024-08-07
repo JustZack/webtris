@@ -10,7 +10,7 @@ export default class TypeOf {
     //This looks weird, but typeof(null) returns object
     static NULL = TypeOf.OBJECT;
 
-    getClass(object) { 
-        return object.constructor;
+    static getClass(object) { 
+        return object.constructor.name;
     }
 }

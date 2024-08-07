@@ -4,3 +4,33 @@
     box-sizing: border-box;
     border-collapse: collapse;
 }
+
+.score {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+    color: white;
+    font-size: 100;
+} 
+
+.statistics {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+    font-size: 100;
+    > div {
+        display: inline-block;
+    }
+    td {
+        color: white;
+        font-size: 40px;
+    }
+} 

@@ -1,17 +1,9 @@
-import CubeModel from "../../models/pieces/CubeModel";
-import IModel from "../../models/pieces/IModel";
-import JModel from "../../models/pieces/JModel";
-import LModel from "../../models/pieces/lModel";
-import SModel from "../../models/pieces/SModel";
-import TModel from "../../models/pieces/TModel";
-import ZModel from "../../models/pieces/ZModel";
 import _ from "lodash";
+import PiecesConfig from "../../configs/pieces/Pieces.Config";
 
 export default class PiecePicker {
-    static standardPieces = [IModel, LModel, JModel, SModel, ZModel, TModel, CubeModel];
-
     static spawnRandomStandardPiece(position) {
-        let pieceClass = new PiecePicker.getRandom(PiecePicker.standardPieces);
+        let pieceClass = new PiecePicker.getRandom(PiecesConfig.standard);
         return new pieceClass(position);
     }
 

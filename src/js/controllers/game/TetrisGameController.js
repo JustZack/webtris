@@ -5,6 +5,9 @@ import NextPieceView from "../../views/NextPieceView";
 import BoardController from "../board/BoardController";
 import GameConfig from "../../configs/Game.Config";
 import TetrisGameModel from "../../models/game/TetrisGameModel";
+import PiecesConfig from "../../configs/pieces/Pieces.Config";
+import ScoreView from "../../views/ScoreView";
+import StatisticsView from "../../views/StatisticsView";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -14,8 +17,14 @@ export default class TetrisGameController extends React.Component {
         this.state = {
             nextPieceWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/3)),
             nextPieceSize: new Size(blSize.width*5, blSize.height*4),
+
+            scoreWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/5)),
+
+            statsWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/2.13)),
+            statsWindowSize: new Size(blSize.width*6, blSize.height*15.5),
+
             levelConfig: GameConfig.Levels[GameConfig.CurrentLevel],
-            gameModel: new TetrisGameModel(new Point(4, 0))
+            gameModel: new TetrisGameModel(new Point(4, 0), PiecesConfig.standard),
         }
 
         this.doGameModelUpdate = this.doGameModelUpdate.bind(this);
@@ -70,10 +79,15 @@ export default class TetrisGameController extends React.Component {
                 <BoardController 
                     position={this.props.position} boardSize={this.props.boardSize} blockSize={this.props.blockSize} 
                     getNextPiece={this.getNextPiece} getLevelConfig={this.getLevelConfig} 
-                    isPaused={this.isPaused} togglePaused={this.togglePaused}/>
+                    isPaused={this.isPaused} togglePaused={this.togglePaused}
+                    doGameModelUpdate={this.doGameModelUpdate}/>
 
+                <ScoreView position={this.state.scoreWindowPosition} size={this.state.nextPieceSize}
+                    score={this.state.gameModel.getPoints()}/>
                 <NextPieceView position={this.state.nextPieceWindowPosition} size={this.state.nextPieceSize} 
                     piece={this.state.gameModel.getNextPiece()} blockSize={this.props.blockSize}/>
+                <StatisticsView position={this.state.statsWindowPosition} size={this.state.statsWindowSize}
+                    statistics={this.state.gameModel.getPlacedPieceStatistics()} blockSize={this.props.blockSize}/>
             </div>
         )
     }

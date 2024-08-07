@@ -41,6 +41,10 @@ export default class BoardController extends React.Component {
             b.shiftDownRows(fullRows);
             this.setState({boardModel: b});
             this.props.togglePaused();
+            this.props.doGameModelUpdate((gm) => {
+                gm.addPoints(fullRows.length * 500);
+                gm.addCompletedLines(fullRows.length);
+            });
         });
     }
 
@@ -112,7 +116,7 @@ export default class BoardController extends React.Component {
                 <button onClick={this.clearBoard}>Clear Board</button>
                 <FallingPieceController doBoardUpdate={this.doBoardUpdate} getNextPiece={this.props.getNextPiece} 
                                         getLevelConfig={this.props.getLevelConfig} isPaused={this.props.isPaused}
-                                        checkForFullRows={this.checkForFullRows}/>
+                                        checkForFullRows={this.checkForFullRows} doGameModelUpdate={this.props.doGameModelUpdate}/>
                 <BoardView position={this.props.position} board={this.state.boardModel} blockSize={this.props.blockSize}/>
             </div>
         )

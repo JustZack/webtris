@@ -29,6 +29,9 @@ export default class FallingPieceController extends React.Component {
             b.clearDynamicBoard();
             b.commitStaticPiece(piece);
         });
+        this.props.doGameModelUpdate((gm) => {
+            gm.addPlacedPiece(piece);
+        })
         this.props.checkForFullRows();
         let callback = this.state.isFastFalling ? this.startFastFallTimeout : this.startShiftDownTimeout;
         this.resetShiftDownTimeout(callback);
@@ -62,7 +65,7 @@ export default class FallingPieceController extends React.Component {
                 if (b.pieceCanMove(piece, Direction.DOWN)) {
                     piece.move(Direction.DOWN);
                 } else {
-                    this.commitToBoard(piece); 
+                    this.commitToBoard(piece);
                     piece = this.props.getNextPiece();
                 }
                 this.commitToDynamicBoard(piece);

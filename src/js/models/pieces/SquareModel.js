@@ -2,7 +2,7 @@ import TetrominoModel from "./TetrominoModel";
 import BlockOrigin from "../blocks/BlockOrigin";
 import BlockState from "../blocks/BlockState";
 
-export default class CubeModel extends TetrominoModel {
+export default class SquareModel extends TetrominoModel {
     
     constructor(position) {
         let shape = [
