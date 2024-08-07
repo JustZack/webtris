@@ -10,7 +10,7 @@ export default class App extends React.Component {
     let blockSideLength = 40;
     this.state = { 
       blockSideLength: blockSideLength,
-      position: new Point((window.innerWidth/3)-(blockSideLength*5), (window.innerHeight/2)-(blockSideLength*15))
+      position: new Point((window.innerWidth/3)-(blockSideLength*5), (window.innerHeight/2)-(blockSideLength*14))
     }
   }
 

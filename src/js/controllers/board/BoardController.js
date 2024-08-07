@@ -42,7 +42,7 @@ export default class BoardController extends React.Component {
             this.setState({boardModel: b});
             this.props.togglePaused();
             this.props.doGameModelUpdate((gm) => {
-                gm.addPoints(fullRows.length * 500);
+                gm.addPoints(Math.pow(11, fullRows.length));
                 gm.addCompletedLines(fullRows.length);
             });
         });

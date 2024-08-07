@@ -8,6 +8,7 @@ import TetrisGameModel from "../../models/game/TetrisGameModel";
 import PiecesConfig from "../../configs/pieces/Pieces.Config";
 import ScoreView from "../../views/ScoreView";
 import StatisticsView from "../../views/StatisticsView";
+import LineCountView from "../../views/LineCountView";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -16,12 +17,15 @@ export default class TetrisGameController extends React.Component {
         let blSize = this.props.blockSize;
         this.state = {
             nextPieceWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/3)),
-            nextPieceSize: new Size(blSize.width*5, blSize.height*4),
+            nextPieceSize: new Size(blSize.width*6, blSize.height*4),
 
             scoreWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/5)),
 
             statsWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/2.13)),
             statsWindowSize: new Size(blSize.width*6, blSize.height*15.5),
+
+            LineCountWindowPosition: props.position.offset(new Point(0, blSize.height*-2)),
+            LineCountWindowSize: new Size(blSize.width*boSize.width, blSize.height*2),
 
             levelConfig: GameConfig.Levels[GameConfig.CurrentLevel],
             gameModel: new TetrisGameModel(new Point(4, 0), PiecesConfig.standard),
@@ -88,6 +92,8 @@ export default class TetrisGameController extends React.Component {
                     piece={this.state.gameModel.getNextPiece()} blockSize={this.props.blockSize}/>
                 <StatisticsView position={this.state.statsWindowPosition} size={this.state.statsWindowSize}
                     statistics={this.state.gameModel.getPlacedPieceStatistics()} blockSize={this.props.blockSize}/>
+                <LineCountView position={this.state.LineCountWindowPosition} size={this.state.LineCountWindowSize}
+                    lines={this.state.gameModel.getCompletedLines()}/>
             </div>
         )
     }
