@@ -5,47 +5,9 @@
     border-collapse: collapse;
 }
 
-.score {
-    box-sizing: border-box;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    border: 5px solid aqua;
-    border-left: none;
-    color: white;
-    font-size: 50;
-} 
-
-.next-piece {
-    box-sizing: border-box;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    border: 5px solid aqua;
-    border-left: none;
-} 
-
-.statistics {
-    box-sizing: border-box;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    border: 5px solid aqua;
-    border-left: none;
-    font-size: 100;
-    > div {
-        display: inline-block;
-    }
-    td {
-        color: white;
-        font-size: 40px;
-    }
+.board-text {
+    color: cornsilk;
+    font-size: 50px;
 }
 
 .line-count {
@@ -57,6 +19,58 @@
     background-color: black;
     border: 5px solid aqua;
     border-bottom: none;
-    font-size: 50;
+}
+
+
+.score {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
     color: white;
+    div.score-label, div.score-value {
+        text-align: center;
+    }
+} 
+
+.next-piece {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+    div.next-piece-label {
+        text-align: center;
+    }
+    table {
+        margin: auto;
+    }
+} 
+
+.statistics {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+    table {
+        display: flex;
+        padding: 0% 2%;
+    }
+    table, tbody, td {
+        width: 100%;
+    }
+    div.statistics-label {
+        text-align: center;
+    }
+    td.piece-statistic {
+        font-size: 40px;
+    }
 }

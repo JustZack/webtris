@@ -1,3 +1,5 @@
+import Text from "../util/Text";
+
 export default class ScoreView extends React.Component {
     constructor(props) {
         super(props);
@@ -7,10 +9,12 @@ export default class ScoreView extends React.Component {
     render() {
         let style = {top: this.props.position.y, left: this.props.position.x, 
             width: this.props.size.width, height: this.props.size.height};
+        let score = Text.padWithLeadingZeros(this.props.score, 6);
         return (
             <div className="score" style={style}>
-                Score<br/>
-                {this.props.score}
+                <div className="score-label board-text">Score</div>
+                <div className="score-value board-text">{score}</div>
+                
             </div>
         );
     }

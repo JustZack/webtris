@@ -16,13 +16,13 @@ export default class TetrisGameController extends React.Component {
         let boSize = this.props.boardSize;
         let blSize = this.props.blockSize;
         this.state = {
-            nextPieceWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/3)),
-            nextPieceSize: new Size(blSize.width*6, blSize.height*4),
+            scoreWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/15)),
 
-            scoreWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/5)),
+            nextPieceWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/5)),
+            nextPieceSize: new Size(blSize.width*4.5, blSize.height*4),
 
-            statsWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/2.13)),
-            statsWindowSize: new Size(blSize.width*6, blSize.height*15.5),
+            statsWindowPosition: props.position.offset(new Point(blSize.width*boSize.width, blSize.height*(boSize.height)/3)),
+            statsWindowSize: new Size(blSize.width*6, blSize.height*16.5),
 
             LineCountWindowPosition: props.position.offset(new Point(0, blSize.height*-2)),
             LineCountWindowSize: new Size(blSize.width*boSize.width, blSize.height*2),
