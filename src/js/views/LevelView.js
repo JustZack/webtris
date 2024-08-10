@@ -1,6 +1,6 @@
 import Text from "../util/Text";
 
-export default class ScoreView extends React.Component {
+export default class LevelView extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
@@ -9,11 +9,11 @@ export default class ScoreView extends React.Component {
     render() {
         let style = {top: this.props.position.y, left: this.props.position.x, 
             width: this.props.size.width, height: this.props.size.height};
-        let score = Text.padWithLeadingZeros(this.props.score, 6);
+        let level = Text.padWithLeadingZeros(this.props.level, 3);
         return (
-            <div className="score" style={style}>
-                <div className="score-label board-text center-text">Score</div>
-                <div className="score-value board-text center-text">{score}</div>
+            <div className="level" style={style}>
+                <div className="level-label board-text center-text">Level</div>
+                <div className="level-value board-text center-text">{level}</div>
                 
             </div>
         );

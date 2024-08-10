@@ -2,9 +2,9 @@ import Point from "../../util/Point";
 import TypeOf from "../../util/TypeOf";
 
 export default class TetrisGameModel {
-    constructor(spawnPoint, pieceSet) {
+    constructor(spawnPoint, gameConfigModel) {
         this.setSpawnPoint(spawnPoint);
-        this.pieces = pieceSet;
+        this.gameConfig = gameConfigModel;
         this.reset();
     }
 
@@ -41,12 +41,7 @@ export default class TetrisGameModel {
 
 
     getPieceSet() {
-        return this.pieces;
-    }
-    setPieceSet(newPiecesArray) {
-        this.pieces = newPiecesArray;
-        this.piecesPlaced = [];
-        for (let clss of this.pieces) this.piecesPlaced[clss.name] = 0;
+        return this.gameConfigModel.getPieceSet();
     }
 
     addPlacedPiece(piece) {
@@ -58,6 +53,14 @@ export default class TetrisGameModel {
         return this.piecesPlaced;
     }
 
+    getPieceHistory() { 
+        return this.pieceHistory; 
+    }
+
+    spawnRandomPiece(position) {
+        return this.gameConfig.spawnRandomPiece(position, this.getPieceHistory());
+    }
+
     addCompletedLines(numLines) {
         this.completeLines += numLines;
     }
@@ -65,23 +68,40 @@ export default class TetrisGameModel {
         return this.completeLines;
     }
 
+    canAdvanceLevel() {
+        return this.gameConfig.canAdvanceLevel(this.completeLines, this.startingLevel, this.currentLevel);
+    }
+
     advanceLevel() {
-        this.currentLevelNum++;
+        this.currentLevel++;
     }
-    currentLevel() {
-        return this.currentLevelNum;
+    getCurrentLevel() {
+        return this.currentLevel;
     }
-    setLevel(newLevel) {
-        this.currentLevelNum = newLevel;
+
+    getCurrentLevelConfig() {
+        return this.gameConfig.getLevel(this.currentLevel);
+    }
+
+    getStartLevel() {
+        return this.startingLevel;
+    }
+    setStartLevel(startLevel) {
+        this.currentLevel = startLevel;
+        this.startingLevel = startLevel
     }
 
     reset() {
         this.completeLines = 0;
         this.points = 0;
-        this.currentLevelNum = 0;
+        this.currentLevel = 0;
+        this.startingLevel = 0;
+        this.pieceHistory = [];
         this.setPaused(false);
         this.setNextPiece(null);
-        this.setPieceSet(this.pieces);
+        this.piecesPlaced = [];
+        for (let clss of this.gameConfig.getPieceSet()) 
+            this.piecesPlaced[clss.name] = 0;
     }
 
 }

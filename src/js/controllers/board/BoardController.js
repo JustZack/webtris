@@ -45,6 +45,7 @@ export default class BoardController extends React.Component {
             this.props.doGameModelUpdate((gm) => {
                 gm.addPoints(Math.pow(11, fullRows.length));
                 gm.addCompletedLines(fullRows.length);
+                if (gm.canAdvanceLevel()) gm.advanceLevel();
             });
         });
     }

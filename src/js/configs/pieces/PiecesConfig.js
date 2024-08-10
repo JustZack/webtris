@@ -21,6 +21,6 @@ export default class PiecesConfig {
         return PiecesConfig.stringToClass[pieceName]
     }
 
-    static standard = [IModel, LModel, JModel, SModel, ZModel, TModel, SquareModel];
+    static Standard = [IModel, LModel, JModel, SModel, ZModel, TModel, SquareModel];
 
 }

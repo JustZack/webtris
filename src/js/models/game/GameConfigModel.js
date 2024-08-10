@@ -1,6 +1,7 @@
 export default class GameConfigModel {   
-    constructor(rowClearDelay) { 
-        this.rowClearDelay = rowClearDelay 
+    constructor(rowClearDelay, piecesSet) { 
+        this.setRowClearDelay(rowClearDelay);
+        this.setPieceSet(piecesSet);
     }
 
     getRowClearDelay() { return this.rowClearDelay; }
@@ -31,4 +32,12 @@ export default class GameConfigModel {
     getLevels() { return this.levels; }
     //Set levels object
     setLevels(newLevels) { this.levels = newLevels; }
+
+    canAdvanceLevel(lineCount, levelStart, currentLevel) { }
+
+    pieces = [];
+    getPieceSet() { return this.pieces; }
+    setPieceSet(newPieces) { this.pieces = newPieces; }
+
+    spawnRandomPiece(spawnPoint, pieceHistory) { }
 }  

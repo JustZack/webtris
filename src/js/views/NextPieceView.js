@@ -12,7 +12,7 @@ export default class NextPieceView extends React.Component {
                      width: this.props.size.width, height: this.props.size.height};
         return (
             <div className="next-piece" style={style}>
-                <div className="next-piece-label board-text">Next</div>
+                <div className="next-piece-label board-text center-text">Next</div>
                 <PieceView piece={this.props.piece} blockSize={this.props.blockSize} level={this.props.level}/>
             </div>
         );

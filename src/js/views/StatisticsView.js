@@ -1,4 +1,4 @@
-import PiecesConfig from "../configs/pieces/Pieces.Config";
+import PiecesConfig from "../configs/pieces/PiecesConfig";
 import Point from "../util/Point";
 import Text from "../util/Text";
 import PieceView from "./PieceView";
@@ -31,7 +31,7 @@ export default class StatisticsView extends React.Component {
             width: this.props.size.width, height: this.props.size.height};
         return (
             <div className="statistics" style={style}>
-                <div className="statistics-label board-text">Statistics</div>
+                <div className="statistics-label board-text center-text">Statistics</div>
                 <table>
                     <tbody>
                         {this.renderPieces()}
