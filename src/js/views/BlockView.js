@@ -1,4 +1,4 @@
-import GameConfig from "../configs/Game.Config";
+import TetrisGameConfig from "../configs/Config";
 import BlockState from "../models/blocks/BlockState";
 
 export default class BlockView extends React.Component {
@@ -11,11 +11,7 @@ export default class BlockView extends React.Component {
             case BlockState.EMPTY: return "empty";
             case BlockState.COLOR_1: 
             case BlockState.COLOR_2: 
-            case BlockState.COLOR_3: 
-            case BlockState.COLOR_4: 
-            case BlockState.COLOR_5: 
-            case BlockState.COLOR_6: 
-            case BlockState.COLOR_7: return `filled color-${state}-${GameConfig.CurrentLevel+1}`;
+            case BlockState.COLOR_3: return `filled color-${state}-${TetrisGameConfig.currentLevelNum}`;
             case BlockState.COMPLETE_ROW_LIGHT: return `complete-row-block-light`;
             case BlockState.COMPLETE_ROW_DARK: return `complete-row-block-dark`;
             case BlockState.LAST_STATE: return "default-filled";

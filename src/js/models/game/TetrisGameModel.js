@@ -65,9 +65,20 @@ export default class TetrisGameModel {
         return this.completeLines;
     }
 
+    advanceLevel() {
+        this.currentLevelNum++;
+    }
+    currentLevel() {
+        return this.currentLevelNum;
+    }
+    setLevel(newLevel) {
+        this.currentLevelNum = newLevel;
+    }
+
     reset() {
         this.completeLines = 0;
         this.points = 0;
+        this.currentLevelNum = 0;
         this.setPaused(false);
         this.setNextPiece(null);
         this.setPieceSet(this.pieces);

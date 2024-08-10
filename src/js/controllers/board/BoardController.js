@@ -116,7 +116,7 @@ export default class BoardController extends React.Component {
             <div>
                 <button onClick={this.clearBoard}>Clear Board</button>
                 <FallingPieceController doBoardUpdate={this.doBoardUpdate} getNextPiece={this.props.getNextPiece} 
-                                        getLevelConfig={this.props.getLevelConfig} isPaused={this.props.isPaused}
+                                        isPaused={this.props.isPaused} getCurrentLevel={this.props.getCurrentLevel}
                                         doCheckForFullRows={this.doCheckForFullRows} doGameModelUpdate={this.props.doGameModelUpdate}/>
                 <BoardView position={this.props.position} board={this.state.boardModel} blockSize={this.props.blockSize}/>
             </div>

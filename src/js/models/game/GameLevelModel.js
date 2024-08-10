@@ -1,7 +1,7 @@
 export default class GameLevelModel {
-    constructor(config) {
-        this.fallTime = config.fallTime;
-        this.fastFallDivisor = config.fastFallDivisor;
+    constructor(fallTime, fastFallDivisor) {
+        this.fallTime = fallTime;
+        this.fastFallDivisor = fastFallDivisor;
     }
 
     getFallTime() {
@@ -12,7 +12,7 @@ export default class GameLevelModel {
     }
 
     getFastFallDivisor() {
-        this.fastFallDivisor;
+        return this.fastFallDivisor;
     }
     setFastFallDivisor(newDivisor) {
         this.fastFallDivisor = newDivisor;

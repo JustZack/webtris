@@ -1,25 +1,34 @@
-import GameConfig from "../../configs/Game.Config";
-import GameLevelModel from "./GameLevelModel";
-
 export default class GameConfigModel {   
-    static getMaxLevel() {
-        return Object.keys(GameConfig.Levels).length-1;
-    }
-    static gotoNextLevel() {
-        let current = GameConfigModel.getCurrentLevel();
-        let max = this.getMaxLevel();
-        if (current > max) this.setCurrentLevel(max);
-        else if (current < max) this.setCurrentLevel(current + 1);
+    constructor(rowClearDelay) { 
+        this.rowClearDelay = rowClearDelay 
     }
 
-    static getLevelModel(level) {
-        return new GameLevelModel(GameConfig.Levels[level]);
-    }
+    getRowClearDelay() { return this.rowClearDelay; }
+    setRowClearDelay(newDelay) { this.rowClearDelay = newDelay; }
 
-    static getRowClearDelay() {
-        return GameConfig.rowClearDelay;
+
+    levels = [];
+    //Add a new level to this config
+    addLevel(levelNumber, levelModel) { return this.levels[levelNumber] = levelModel; }
+    //Define a level refrencing another level
+    refrenceLevel(newLevelNumber, levelNumberToRefrence) {
+        this.addLevel(newLevelNumber, this.getLevel(levelNumberToRefrence));
     }
-    static setRowClearDelay(newDelay) {
-        GameConfig.rowClearDelay = newDelay;
+    //Define a range of levels that refrence another number
+    refrenceLevels(newLevelStart, newLevelEnd, levelNumberToRefrence) {
+        for (let i = newLevelStart;i < newLevelEnd;i++) 
+            this.refrenceLevel(i, levelNumberToRefrence);
     }
+    
+    //Get a specific level
+    getLevel(levelNumber) { 
+        if (levelNumber > this.getMaxLevel())   return this.levels[this.getMaxLevel()];
+        else                                    return this.levels[levelNumber]; 
+    }
+    //Get the max level number defined by this config
+    getMaxLevel() { return this.getLevels().length-1; }
+    //Get all levels
+    getLevels() { return this.levels; }
+    //Set levels object
+    setLevels(newLevels) { this.levels = newLevels; }
 }  

@@ -76,8 +76,8 @@ export default class FallingPieceController extends React.Component {
     }
 
     startShiftTimeout(fastFall) {
-        let levelCfg = this.props.getLevelConfig();
-        let fallTime = levelCfg.fallTime/(fastFall ? levelCfg.fastFallDivisor : 1);
+        let level = this.props.getCurrentLevel();
+        let fallTime = level.getFallTime() / (fastFall ? level.getFastFallDivisor() : 1);
         let shiftInterval = setInterval(this.shiftDown, fallTime);
         this.setState({shiftInterval: shiftInterval, isFastFalling: fastFall});
     }

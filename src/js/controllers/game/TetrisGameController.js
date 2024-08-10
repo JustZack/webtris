@@ -3,12 +3,12 @@ import Point from "../../util/Point";
 import PiecePicker from "../piece/PiecePicker";
 import NextPieceView from "../../views/NextPieceView";
 import BoardController from "../board/BoardController";
-import GameConfig from "../../configs/Game.Config";
 import TetrisGameModel from "../../models/game/TetrisGameModel";
 import PiecesConfig from "../../configs/pieces/Pieces.Config";
 import ScoreView from "../../views/ScoreView";
 import StatisticsView from "../../views/StatisticsView";
 import LineCountView from "../../views/LineCountView";
+import TetrisGameConfig from "../../configs/Config";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -27,13 +27,11 @@ export default class TetrisGameController extends React.Component {
             LineCountWindowPosition: props.position.offset(new Point(0, blSize.height*-2)),
             LineCountWindowSize: new Size(blSize.width*boSize.width, blSize.height*2),
 
-            levelConfig: GameConfig.Levels[GameConfig.CurrentLevel],
             gameModel: new TetrisGameModel(new Point(4, 0), PiecesConfig.standard),
         }
 
         this.doGameModelUpdate = this.doGameModelUpdate.bind(this);
         this.getNextPiece = this.getNextPiece.bind(this);
-        this.getLevelConfig = this.getLevelConfig.bind(this);
         this.nextLevel = this.nextLevel.bind(this);
         this.togglePaused = this.togglePaused.bind(this);
         this.isPaused = this.isPaused.bind(this);
@@ -63,11 +61,16 @@ export default class TetrisGameController extends React.Component {
     }
 
     nextLevel() {
-        this.setState({levelConfig: GameConfig.Levels[GameConfig.CurrentLevel++]});
+        this.doGameModelUpdate((gm) => {
+            gm.advanceLevel();
+            //TODO: This is a god awful solution th
+            TetrisGameConfig.advanceLevel();
+            console.log(TetrisGameConfig.currentLevel());
+        })
     }
 
-    getLevelConfig() {
-        return this.state.levelConfig;
+    getCurrentLevel() {
+        return TetrisGameConfig.currentLevel();
     }
 
     togglePaused() { 
@@ -79,12 +82,11 @@ export default class TetrisGameController extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.nextLevel}>Next Level</button>
+                <button onClick={this.nextLevel}>Next</button>
                 <BoardController 
                     position={this.props.position} boardSize={this.props.boardSize} blockSize={this.props.blockSize} 
-                    getNextPiece={this.getNextPiece} getLevelConfig={this.getLevelConfig} 
-                    isPaused={this.isPaused} togglePaused={this.togglePaused}
-                    doGameModelUpdate={this.doGameModelUpdate}/>
+                    getNextPiece={this.getNextPiece} isPaused={this.isPaused} togglePaused={this.togglePaused}
+                    doGameModelUpdate={this.doGameModelUpdate} getCurrentLevel={this.getCurrentLevel}/>
 
                 <ScoreView position={this.state.scoreWindowPosition} size={this.state.nextPieceSize}
                     score={this.state.gameModel.getPoints()}/>
