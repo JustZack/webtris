@@ -14,7 +14,7 @@ export default class BoardController extends React.Component {
         }
         this.doBoardUpdate = this.doBoardUpdate.bind(this);
         this.clearBoard = this.clearBoard.bind(this);
-        this.checkForFullRows = this.checkForFullRows.bind(this);
+        this.doCheckForFullRows = this.doCheckForFullRows.bind(this);
         this.flashFullRows = this.flashFullRows.bind(this);
         this.clearFullRows = this.clearFullRows.bind(this);
         this.flashRows = this.flashRows.bind(this);
@@ -29,10 +29,11 @@ export default class BoardController extends React.Component {
         return result;
     }
 
-    checkForFullRows() {
+    doCheckForFullRows(callback) {
         let b = this.state.boardModel;
         let fullRows = b.getFullRows();
         if (fullRows.length > 0) this.clearFullRows(fullRows, b);
+        callback(fullRows.length > 0);
     }
 
     async clearFullRows(fullRows, b) {
@@ -116,7 +117,7 @@ export default class BoardController extends React.Component {
                 <button onClick={this.clearBoard}>Clear Board</button>
                 <FallingPieceController doBoardUpdate={this.doBoardUpdate} getNextPiece={this.props.getNextPiece} 
                                         getLevelConfig={this.props.getLevelConfig} isPaused={this.props.isPaused}
-                                        checkForFullRows={this.checkForFullRows} doGameModelUpdate={this.props.doGameModelUpdate}/>
+                                        doCheckForFullRows={this.doCheckForFullRows} doGameModelUpdate={this.props.doGameModelUpdate}/>
                 <BoardView position={this.props.position} board={this.state.boardModel} blockSize={this.props.blockSize}/>
             </div>
         )

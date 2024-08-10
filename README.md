@@ -1,5 +1,5 @@
 # webtris
-Web based Tetris, with the goal of emulating gameplay of 1989 NES Tetris as closely as possible with some fun features.
+Web based Tetris, with the goal of cloning gameplay of [1989 NES Tetris](https://www.retrogames.cz/play_1030-NES.php) as closely as possible with some fun features.
 1. Allow for every game rule / setting to be changed (Board size / Block Sizes / Colors / Speed / Cheats)
 2. Allow for using different sets of pieces
 3. Controller support

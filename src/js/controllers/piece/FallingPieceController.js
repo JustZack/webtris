@@ -32,9 +32,10 @@ export default class FallingPieceController extends React.Component {
         this.props.doGameModelUpdate((gm) => {
             gm.addPlacedPiece(piece);
         })
-        this.props.checkForFullRows();
-        let callback = this.state.isFastFalling ? this.startFastFallTimeout : this.startShiftDownTimeout;
-        this.resetShiftDownTimeout(callback);
+        this.props.doCheckForFullRows((didClear) => {
+            let callback = this.state.isFastFalling ? this.startFastFallTimeout : this.startShiftDownTimeout;
+            this.resetShiftDownTimeout(callback);
+        });
     }
 
     commitToDynamicBoard(piece) {
@@ -96,12 +97,10 @@ export default class FallingPieceController extends React.Component {
 
     //Some controls act like toggles while held down
     handleKeyUp(event, gameAction) {
-        if (this.canAcceptInput(gameAction)) {
-            let piece = this.state.fallingPiece;
-            if (piece != null) {
-                if (gameAction == GameAction.FAST_FALL) {
-                    if (this.state.isFastFalling) this.resetShiftDownTimeout(this.startShiftDownTimeout);
-                }
+        let piece = this.state.fallingPiece;
+        if (piece != null) {
+            if (gameAction == GameAction.FAST_FALL) {
+                if (this.state.isFastFalling) this.resetShiftDownTimeout(this.startShiftDownTimeout);
             }
         }
     }
