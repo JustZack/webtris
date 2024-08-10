@@ -16,7 +16,7 @@ export default class GameConfigModel {
     }
     //Define a range of levels that refrence another number
     refrenceLevels(newLevelStart, newLevelEnd, levelNumberToRefrence) {
-        for (let i = newLevelStart;i < newLevelEnd;i++) 
+        for (let i = newLevelStart;i <= newLevelEnd;i++) 
             this.refrenceLevel(i, levelNumberToRefrence);
     }
     
