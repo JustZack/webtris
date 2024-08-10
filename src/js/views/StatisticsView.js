@@ -18,7 +18,7 @@ export default class StatisticsView extends React.Component {
             pieces.push(
             <tr key={pieceName}>
                 <td className="piece">
-                    <PieceView piece={new clss(new Point(1, 1))} blockSize={this.props.blockSize}/>
+                    <PieceView piece={new clss(new Point(1, 1))} blockSize={this.props.blockSize} level={this.props.level}/>
                 </td>
                 <td className="piece-statistic board-text">{stat}</td>
             </tr>);

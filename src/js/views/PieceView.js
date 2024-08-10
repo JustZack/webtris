@@ -10,7 +10,7 @@ export default class PieceView extends React.Component {
     render() {
         if (this.props.piece != null) { 
             let blocks = this.props.piece.asBoard;
-            return BlockRenderer.renderMatrix(blocks, this.props.blockSize, "tetris-piece");
+            return BlockRenderer.renderMatrix(blocks, this.props.blockSize, this.props.level, "tetris-piece");
         }
     }
   }

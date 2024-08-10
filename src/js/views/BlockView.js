@@ -1,4 +1,3 @@
-import TetrisGameConfig from "../configs/Config";
 import BlockState from "../models/blocks/BlockState";
 
 export default class BlockView extends React.Component {
@@ -6,12 +5,12 @@ export default class BlockView extends React.Component {
         super(props);
     }
 
-    static determineColorClass(state) {
+    static determineColorClass(state, level) {
         switch (state) {
             case BlockState.EMPTY: return "empty";
             case BlockState.COLOR_1: 
             case BlockState.COLOR_2: 
-            case BlockState.COLOR_3: return `filled color-${state}-${TetrisGameConfig.currentLevelNum}`;
+            case BlockState.COLOR_3: return `filled color-${state}-${level}`;
             case BlockState.COMPLETE_ROW_LIGHT: return `complete-row-block-light`;
             case BlockState.COMPLETE_ROW_DARK: return `complete-row-block-dark`;
             case BlockState.LAST_STATE: return "default-filled";
@@ -25,7 +24,7 @@ export default class BlockView extends React.Component {
         let w = size.width;
         let h = size.height;
         let style = {width: w, height: h};
-        let cssClass = "block " + BlockView.determineColorClass(block.state)
+        let cssClass = "block " + BlockView.determineColorClass(block.state, this.props.level)
         return (<td className={cssClass} style={style}></td>)
     }
   }

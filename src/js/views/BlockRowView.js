@@ -7,7 +7,7 @@ export default class BlockRowView extends React.Component {
     }
 
     renderBlocks() {
-        return BlockRenderer.renderRow(this.props.blocks, this.props.blockSize);
+        return BlockRenderer.renderRow(this.props.blocks, this.props.blockSize, this.props.level);
     }
 
     render() {

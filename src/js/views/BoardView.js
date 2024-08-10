@@ -24,7 +24,7 @@ export default class BoardView extends React.Component {
         let size = this.state.size;
         let style = {top: pos.y, left: pos.x, width: size.width, height: size.height};
         let blocks = this.props.board.getBlocks();
-        return BlockRenderer.renderMatrix(blocks, this.props.blockSize, "tetris-board", style);
+        return BlockRenderer.renderMatrix(blocks, this.props.blockSize, this.props.level, "tetris-board", style);
     }
   }
   
