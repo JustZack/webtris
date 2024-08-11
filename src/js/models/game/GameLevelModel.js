@@ -1,7 +1,7 @@
 import FPS from "../../util/FPS";
 
 export default class GameLevelModel {
-    constructor(fallTime, fastFallTime) {
+    constructor(fallTime, fastFallTime = FPS.ToMs(1)) {
         this.fallTime = fallTime;
         this.fastFallTime = fastFallTime;
     }
