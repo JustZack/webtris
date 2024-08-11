@@ -1,7 +1,9 @@
+import FPS from "../../util/FPS";
+
 export default class GameLevelModel {
-    constructor(fallTime, fastFallDivisor) {
+    constructor(fallTime, fastFallTime = FPS.ToMs(1)) {
         this.fallTime = fallTime;
-        this.fastFallDivisor = fastFallDivisor;
+        this.fastFallTime = fastFallTime;
     }
 
     getFallTime() {
@@ -11,10 +13,10 @@ export default class GameLevelModel {
         this.fallTime = newFallTime;
     }
 
-    getFastFallDivisor() {
-        return this.fastFallDivisor;
+    getFastFallTime() {
+        return this.fastFallTime;
     }
-    setFastFallDivisor(newDivisor) {
-        this.fastFallDivisor = newDivisor;
+    setFastFallTime(newFastFallTime) {
+        this.fastFallTime = newFastFallTime;
     }
 }

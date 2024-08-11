@@ -17,22 +17,24 @@ export default class TetrisGameController extends React.Component {
         let blSize = this.props.blockSize;
         let boardRight = this.props.position.offset(new Point(blSize.width*boSize.width, 0));
         let boardHeight = blSize.height*(boSize.height);
+
+        let gameModel = new TetrisGameModel(new Point(4, 0), new StandardGameConfigModel());
+        gameModel.setStartLevel(5);
         this.state = {
-            scoreWindowPosition: boardRight.offset(new Point(0, boardHeight/15)),
-            nextPieceWindowPosition: boardRight.offset(new Point(0, boardHeight/5)),
+            scoreWindowPosition: boardRight.offset(new Point(0, blSize.height*-2)),
+            nextPieceWindowPosition: boardRight.offset(new Point(0, blSize.height*2)),
             nextPieceSize: new Size(blSize.width*4.5, blSize.height*4),
 
-            levelWindowPosition: boardRight.offset(new Point(0, boardHeight/1.135)),
+            levelWindowPosition: boardRight.offset(new Point(0, blSize.height*22.5)),
             levelWindowSize: new Size(blSize.width*4.5, blSize.height*3.25),
 
-            statsWindowPosition: boardRight.offset(new Point(0, blSize.height*(boSize.height)/3)),
+            statsWindowPosition: boardRight.offset(new Point(0, blSize.height*(6))),
             statsWindowSize: new Size(blSize.width*6, blSize.height*16.5),
-
 
             LineCountWindowPosition: props.position.offset(new Point(0, blSize.height*-2)),
             LineCountWindowSize: new Size(blSize.width*boSize.width, blSize.height*2),
 
-            gameModel: new TetrisGameModel(new Point(4, 0), new StandardGameConfigModel()),
+            gameModel: gameModel,
         }
 
         this.doGameModelUpdate = this.doGameModelUpdate.bind(this);
@@ -75,11 +77,11 @@ export default class TetrisGameController extends React.Component {
     }
 
     getCurrentLevel() {
-        return this.state.gameModel.getCurrentLevelConfig();
+        return this.state.gameModel.getCurrentLevel();
     }
 
     getCurrentLevelNumber() {
-        return this.state.gameModel.getCurrentLevel();
+        return this.state.gameModel.getCurrentLevelNumber();
     }
 
     togglePaused() { 

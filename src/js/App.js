@@ -7,17 +7,22 @@ import TetrisGameController from "./controllers/game/TetrisGameController";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    let blockSideLength = 40;
+    let ww = window.innerWidth, wh = window.innerHeight;
+    let boardSize = new Size(10, 30);
+    let blockSize = new Size(40, 40);
+    let boardPos = new Point((ww/3)-(blockSize.width*5), (wh/2)-(blockSize.height* (boardSize.height-2)/2));
+
     this.state = { 
-      blockSideLength: blockSideLength,
-      position: new Point((window.innerWidth/3)-(blockSideLength*5), (window.innerHeight/2)-(blockSideLength*14))
+      position: boardPos,
+      boardSize: boardSize,
+      blockSize: blockSize
     }
   }
 
   render() {
     return (
       <div>
-        <TetrisGameController position={this.state.position} blockSize={new Size(this.state.blockSideLength, this.state.blockSideLength)} boardSize={new Size(10, 30)}/>
+        <TetrisGameController position={this.state.position} boardSize={this.state.boardSize} blockSize={this.state.blockSize}/>
       </div>
     );
   }
