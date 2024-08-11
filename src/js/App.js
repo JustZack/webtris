@@ -8,9 +8,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     let ww = window.innerWidth, wh = window.innerHeight;
-    let boardSize = new Size(10, 30);
+    let boardSize = new Size(10, 20);
     let blockSize = new Size(40, 40);
-    let boardPos = new Point((ww/3)-(blockSize.width*5), (wh/2)-(blockSize.height* (boardSize.height-2)/2));
+    let boardPos = new Point((ww/2)-(blockSize.width*(boardSize.width/2)), (wh/2)-(blockSize.height * (boardSize.height-2)/2));
 
     this.state = { 
       position: boardPos,

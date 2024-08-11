@@ -17,19 +17,21 @@ export default class TetrisGameController extends React.Component {
         let boSize = this.props.boardSize;
         let blSize = this.props.blockSize;
         let boardRight = this.props.position.offset(new Point(blSize.width*boSize.width, 0));
+        let boardLeft = this.props.position;
+
         let boardHeight = blSize.height*(boSize.height);
 
         let gameModel = new TetrisGameModel(new Point(4, 0), new PALGameConfigModel());
         gameModel.setStartLevel(5);
         this.state = {
-            scoreWindowPosition: boardRight.offset(new Point(0, blSize.height*-2)),
-            nextPieceWindowPosition: boardRight.offset(new Point(0, blSize.height*2)),
+            scoreWindowPosition: boardRight.offset(new Point(0, blSize.height*0)),
+            nextPieceWindowPosition: boardRight.offset(new Point(0, blSize.height*6)),
             nextPieceSize: new Size(blSize.width*4.5, blSize.height*4),
 
-            levelWindowPosition: boardRight.offset(new Point(0, blSize.height*22.5)),
+            levelWindowPosition: boardRight.offset(new Point(0, blSize.height*12)),
             levelWindowSize: new Size(blSize.width*4.5, blSize.height*3.25),
 
-            statsWindowPosition: boardRight.offset(new Point(0, blSize.height*(6))),
+            statsWindowPosition: boardLeft.offset(new Point(-blSize.width*6, (boardHeight/2)-(blSize.height*8.25))),
             statsWindowSize: new Size(blSize.width*6, blSize.height*16.5),
 
             LineCountWindowPosition: props.position.offset(new Point(0, blSize.height*-2)),
