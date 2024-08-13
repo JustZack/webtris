@@ -10,6 +10,8 @@ const GameAction = {
     ROTATE_RIGHT: "ROTATE_RIGHT",
 
     PLACE_PIECE: "PLACE_PIECE",
-    MAKE_PIECE: "MAKE_PIECE"
+    MAKE_PIECE: "MAKE_PIECE",
+
+    RESET_BOARD: "RESET_BOARD"
 }
 export default GameAction;

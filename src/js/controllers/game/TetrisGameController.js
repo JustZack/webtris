@@ -10,6 +10,7 @@ import LineCountView from "../../views/LineCountView";
 import LevelView from "../../views/LevelView";
 import NTSCGameConfigModel from "../../models/game/NTSCGameConfigModel";
 import PALGameConfigModel from "../../models/game/PALGameConfigModel";
+import WebtrisGameConfigModel from "../../models/game/WebtrisGameConfigModel";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class TetrisGameController extends React.Component {
 
         let boardHeight = blSize.height*(boSize.height);
 
-        let gameModel = new TetrisGameModel(new Point(4, 0), new PALGameConfigModel());
+        let gameModel = new TetrisGameModel(new Point(4, 0), new WebtrisGameConfigModel());
         gameModel.setStartLevel(5);
         this.state = {
             scoreWindowPosition: boardRight.offset(new Point(0, blSize.height*0)),

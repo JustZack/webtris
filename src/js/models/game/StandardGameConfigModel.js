@@ -6,8 +6,8 @@ import GameLevelModel from "./GameLevelModel";
 //level config adapted from https://tetris.wiki/Tetris_(NES,_Nintendo)
 //fallTime equation is (Frames per Gridcell / 60 FPS) * 1000 miliseconds
 export default class StandardGameConfigModel extends GameConfigModel {
-    constructor() {
-        super(50, PiecesConfig.Standard);
+    constructor(rowClearDelay = 50) {
+        super(rowClearDelay, PiecesConfig.Standard);
     }
 
     canAdvanceLevel(lineCount, levelStart, currentLevel) { 

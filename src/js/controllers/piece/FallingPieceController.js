@@ -95,6 +95,16 @@ export default class FallingPieceController extends React.Component {
         return gameAction != false && !this.props.isPaused()
     }
 
+    resetGame() {
+        clearInterval(this.state.shiftInterval);
+        this.props.doGameModelUpdate((gm) => { 
+            gm.reset();
+        });
+        this.props.doBoardUpdate((b) => {
+            b.reset();
+        });
+    }
+
     //Some controls act like toggles while held down
     handleKeyUp(event, gameAction) {
         let piece = this.state.fallingPiece;
@@ -119,6 +129,7 @@ export default class FallingPieceController extends React.Component {
                     case GameAction.MOVE_RIGHT:     moveDirection = Direction.RIGHT; break;
                     case GameAction.ROTATE_LEFT:    rotateDirection = Direction.LEFT; break;
                     case GameAction.ROTATE_RIGHT:   rotateDirection = Direction.RIGHT; break;
+                    case GameAction.RESET_BOARD:    this.resetGame(); piece = null; break;
                 }
             } else if (gameAction == GameAction.MAKE_PIECE) {
                 piece = this.props.getNextPiece();

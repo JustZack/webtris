@@ -8,11 +8,15 @@ import TypeOf from "../../util/TypeOf";
 export default class BoardModel {
     constructor(size) {
       this.size = size;
-      //Keep an empty board around to easily clear the main or step boards as needed.
-      this.emptyBoard = BoardModel.buildBoard(this.size);
-      this.staticBoard = _.cloneDeep(this.emptyBoard);
-      this.dynamicBoard = _.cloneDeep(this.emptyBoard);
-      this.stepPieces = [];
+      this.reset()
+    }
+
+    reset() {
+        //Keep an empty board around to easily clear the main or step boards as needed.
+        this.emptyBoard = BoardModel.buildBoard(this.size);
+        this.staticBoard = _.cloneDeep(this.emptyBoard);
+        this.dynamicBoard = _.cloneDeep(this.emptyBoard);
+        this.stepPieces = [];
     }
 
     static buildBoard(size) {
