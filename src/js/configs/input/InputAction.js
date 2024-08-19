@@ -1,6 +1,6 @@
 const InputAction = {
-    KEY_DOWN: "MOVE_LEFT",
-    KEY_UP: "MOVE_UP",
+    KEY_DOWN: "KEY_DOWN",
+    KEY_UP: "KEY_UP",
  
     GAMEPAD_CONNECT_CHANGE: "GAMEPAD_CONNECT_CHANGE",
     GAMEPAD_DOWN: "MOVE_RIGHT",

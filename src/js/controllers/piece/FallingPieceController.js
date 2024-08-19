@@ -1,16 +1,13 @@
-import InputControllerComp from "../input/InputController.Component";
 import KeyboardMapping from "../../configs/input/KeyboardMapping";
 import GameAction from "../../configs/input/GameAction";
 import Direction from "../../util/Direction";
+import InputController from "../input/InputController";
+import InputAction from "../../configs/input/InputAction";
 
 export default class FallingPieceController extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            fallingPiece: null,
-            shiftInterval: null,
-            isFastFalling: false
-        }
+
         this.commitToBoard = this.commitToBoard.bind(this);
         this.commitToDynamicBoard = this.commitToDynamicBoard.bind(this);
         this.tryCommitFallingPiece = this.tryCommitFallingPiece.bind(this);
@@ -22,6 +19,24 @@ export default class FallingPieceController extends React.Component {
         this.canAcceptInput = this.canAcceptInput.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
+
+        this.state = {
+            fallingPiece: null,
+            shiftInterval: null,
+            isFastFalling: false,
+            inputController: new InputController(KeyboardMapping)
+        }
+    }
+
+    componentDidMount() {
+        let inputController = this.state.inputController;
+        inputController.addListeners();
+        inputController.setCallback(InputAction.KEY_DOWN, this.handleKeyDown);
+        inputController.setCallback(InputAction.KEY_UP, this.handleKeyUp);        
+    }
+    
+    componentWillUnmount() {
+        this.state.inputController.removeListeners();
     }
 
     commitToBoard(piece) {
@@ -143,8 +158,6 @@ export default class FallingPieceController extends React.Component {
         }
     }
 
-    render() {
-        return (<InputControllerComp mapping={KeyboardMapping} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}/>)
-    }
-  }
+    render() { }
+}
   

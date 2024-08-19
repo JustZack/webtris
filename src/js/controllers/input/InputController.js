@@ -8,6 +8,8 @@ export default class InputController {
     
     constructor(inputMapping) {
 
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
         this.listeners = {
             "keydown": this.handleKeyDown,
             "keyup": this.handleKeyUp,
@@ -25,6 +27,7 @@ export default class InputController {
         let actions = Object.keys(InputAction);
         for (let action in actions) 
             this.callbacks[actions[action]] = () => {};
+        console.log(this.callbacks);
     }
     setCallback(inputAction, callback) {
         let actions = Object.keys(InputAction);
@@ -33,6 +36,7 @@ export default class InputController {
         } else {
             throw `Tried setting InputController callback for unknown input action ${inputAction}`;
         }
+
     }
 
     startGamepadCheckLoop() {
@@ -54,10 +58,11 @@ export default class InputController {
     }
 
     handleKeyDown(event) {
+        console.log(this.callbacks);
         this.callbacks[InputAction.KEY_DOWN](event, this.getGameActionForButton(event));
     }
     handleKeyUp(event) {
-        this.callbacks[InputAction.KEY_DOWN](event, this.getGameActionForButton(event));
+        this.callbacks[InputAction.KEY_UP](event, this.getGameActionForButton(event));
     }
 
     onGamepadConnectionChanged(event, isConnected) {
@@ -92,7 +97,7 @@ export default class InputController {
         else {
             for (let actionIndex in GameAction) {
                 let action = GameAction[actionIndex];
-                if (this.state.mapping[action].includes(event.keyCode)) {
+                if (this.mapping[action].includes(event.keyCode)) {
                     event.preventDefault();
                     return action;
                 }
