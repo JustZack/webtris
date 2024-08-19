@@ -1,4 +1,4 @@
-import InputController from "../input/InputController";
+import InputControllerComp from "../input/InputController.Component";
 import KeyboardMapping from "../../configs/input/KeyboardMapping";
 import GameAction from "../../configs/input/GameAction";
 import Direction from "../../util/Direction";
@@ -96,12 +96,13 @@ export default class FallingPieceController extends React.Component {
     }
 
     resetGame() {
-        clearInterval(this.state.shiftInterval);
-        this.props.doGameModelUpdate((gm) => { 
-            gm.reset();
-        });
-        this.props.doBoardUpdate((b) => {
-            b.reset();
+        this.setState({shiftInterval: null, isFastFalling: false}, () => {
+            this.props.doGameModelUpdate((gm) => { 
+                gm.reset();
+            });
+            this.props.doBoardUpdate((b) => {
+                b.reset();
+            });
         });
     }
 
@@ -143,7 +144,7 @@ export default class FallingPieceController extends React.Component {
     }
 
     render() {
-        return (<InputController mapping={KeyboardMapping} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}/>)
+        return (<InputControllerComp mapping={KeyboardMapping} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}/>)
     }
   }
   

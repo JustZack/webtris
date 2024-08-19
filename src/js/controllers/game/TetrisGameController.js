@@ -11,33 +11,39 @@ import LevelView from "../../views/LevelView";
 import NTSCGameConfigModel from "../../models/game/NTSCGameConfigModel";
 import PALGameConfigModel from "../../models/game/PALGameConfigModel";
 import WebtrisGameConfigModel from "../../models/game/WebtrisGameConfigModel";
+import TetrisGameView from "../../views/TetrisGameView";
 
 export default class TetrisGameController extends React.Component {
     constructor(props) {
         super(props);
         let boSize = this.props.boardSize;
+        let boPos = this.props.position;
         let blSize = this.props.blockSize;
-        let boardRight = this.props.position.offset(new Point(blSize.width*boSize.width, 0));
-        let boardLeft = this.props.position;
+        let boardRight = boPos.offset(new Point(blSize.width*boSize.width, 0));
+        let boardLeft = boPos;
 
         let boardHeight = blSize.height*(boSize.height);
 
         let gameModel = new TetrisGameModel(new Point(4, 0), new WebtrisGameConfigModel());
-        gameModel.setStartLevel(5);
+        gameModel.setStartLevel(0);
         this.state = {
-            scoreWindowPosition: boardRight.offset(new Point(0, blSize.height*0)),
-            nextPieceWindowPosition: boardRight.offset(new Point(0, blSize.height*6)),
-            nextPieceSize: new Size(blSize.width*4.5, blSize.height*4),
-
-            levelWindowPosition: boardRight.offset(new Point(0, blSize.height*12)),
-            levelWindowSize: new Size(blSize.width*4.5, blSize.height*3.25),
-
-            statsWindowPosition: boardLeft.offset(new Point(-blSize.width*6, (boardHeight/2)-(blSize.height*8.25))),
-            statsWindowSize: new Size(blSize.width*6, blSize.height*16.5),
-
-            LineCountWindowPosition: props.position.offset(new Point(0, blSize.height*-2)),
-            LineCountWindowSize: new Size(blSize.width*boSize.width, blSize.height*2),
-
+            positions: {
+                Board: boPos,
+                Score: boardRight.offset(new Point(0, blSize.height*0)),
+                NextPiece: boardRight.offset(new Point(0, blSize.height*6)),
+                Level: boardRight.offset(new Point(0, blSize.height*12)),
+                Stats: boardLeft.offset(new Point(-blSize.width*6, (boardHeight/2)-(blSize.height*8.25))),
+                LineCount: boPos.offset(new Point(0, blSize.height*-2)),
+            },
+            sizes: {
+                Board: boSize,
+                Score: new Size(blSize.width*4.5, blSize.height*4),
+                NextPiece: new Size(blSize.width*4.5, blSize.height*4),
+                Level: new Size(blSize.width*4.5, blSize.height*3.25),
+                Stats: new Size(blSize.width*6, blSize.height*17),
+                LineCount: new Size(blSize.width*boSize.width, blSize.height*2),
+                Block: blSize,
+            },
             gameModel: gameModel,
         }
 
@@ -95,27 +101,31 @@ export default class TetrisGameController extends React.Component {
     isPaused() { return this.state.gameModel.isPaused(); }
 
     render() {
+        const {positions, sizes, gameModel} = this.state;
+        const completedLines = gameModel.getCompletedLines();
+        const totalPoints = gameModel.getPoints()
+        const nextPiece = gameModel.getNextPiece();
+        const currentLevel = this.getCurrentLevelNumber();
+        const statistics = gameModel.getPlacedPieceStatistics();
         return (
-            <div>
-                <button onClick={this.nextLevel}>Next</button>
-                <LineCountView position={this.state.LineCountWindowPosition} size={this.state.LineCountWindowSize}
-                    lines={this.state.gameModel.getCompletedLines()}/>
+            <TetrisGameView
+                nextLevel={this.nextLevel} 
+                positions={positions} 
+                sizes={sizes}
+                completedLines={completedLines} 
+                totalPoints={totalPoints}
+                nextPiece={nextPiece}
+                currentLevel={currentLevel} 
+                statistics={statistics}>
                 <BoardController 
-                    position={this.props.position} boardSize={this.props.boardSize} blockSize={this.props.blockSize} 
-                    getNextPiece={this.getNextPiece} isPaused={this.isPaused} togglePaused={this.togglePaused}
-                    doGameModelUpdate={this.doGameModelUpdate} getCurrentLevel={this.getCurrentLevel} level={this.getCurrentLevelNumber()}/>
+                    position={positions.Board} boardSize={sizes.Board} blockSize={sizes.Block} 
+                    getNextPiece={this.getNextPiece} 
+                    isPaused={this.isPaused} togglePaused={this.togglePaused}
+                    doGameModelUpdate={this.doGameModelUpdate}
+                    getCurrentLevel={this.getCurrentLevel} level={currentLevel}/>
+            </TetrisGameView>
+        );
 
-                <ScoreView position={this.state.scoreWindowPosition} size={this.state.nextPieceSize}
-                    score={this.state.gameModel.getPoints()}/>
-                <NextPieceView position={this.state.nextPieceWindowPosition} size={this.state.nextPieceSize} 
-                    piece={this.state.gameModel.getNextPiece()} blockSize={this.props.blockSize} level={this.getCurrentLevelNumber()}/>
-                <StatisticsView position={this.state.statsWindowPosition} size={this.state.statsWindowSize}
-                    statistics={this.state.gameModel.getPlacedPieceStatistics()} blockSize={this.props.blockSize} level={this.getCurrentLevelNumber()}/>
-                <LevelView position={this.state.levelWindowPosition} size={this.state.levelWindowSize}
-                    blockSize={this.props.blockSize} level={this.getCurrentLevelNumber()}/>
-                
-            </div>
-        )
     }
   }
   

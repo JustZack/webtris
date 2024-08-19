@@ -1,45 +1,89 @@
 import GameAction from "../../configs/input/GameAction";
+import InputAction from "../../configs/input/InputAction";
 
-export default class InputController extends React.Component {
+
+export default class InputController {
     
+    static POLLING_RATE = 10
     
-    constructor(props) {
-        super(props);
-        this.manageListeners = this.manageListeners.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleKeyUp = this.handleKeyUp.bind(this);
+    constructor(inputMapping) {
 
-        
-        this.onGamepadConnectionChanged = this.onGamepadConnectionChanged.bind(this);
-        
-        this.getGameActionForButton = this.getGameActionForButton.bind(this);
+        this.listeners = {
+            "keydown": this.handleKeyDown,
+            "keyup": this.handleKeyUp,
+            "gamepadconnected": (e) => this.onGamepadConnectionChanged(e, true),
+            "gamepaddisconnected": (e) => this.onGamepadConnectionChanged(e, false)
+        };
+        this.mapping = inputMapping;
+        this.gamepads = [];
+        this.gamepadCheckInterval = null;
+        this.callbacks = {};
+        this.initCallbacks()
+    }
 
-        this.state = { 
-            mapping: this.props.mapping,
-            listeners: {
-                "keydown": this.handleKeyDown,
-                "keyup": this.handleKeyUp,
-                "gamepadconnected": (e) => this.onGamepadConnectionChanged(e, true),
-                "gamepaddisconnected": (e) => this.onGamepadConnectionChanged(e, false)
-            },
-            gamepads: []
+    initCallbacks() {
+        let actions = Object.keys(InputAction);
+        for (let action in actions) 
+            this.callbacks[actions[action]] = () => {};
+    }
+    setCallback(inputAction, callback) {
+        let actions = Object.keys(InputAction);
+        if (actions.includes(inputAction)) {
+            this.callbacks[inputAction] = callback;
+        } else {
+            throw `Tried setting InputController callback for unknown input action ${inputAction}`;
         }
     }
 
+    startGamepadCheckLoop() {
+        this.gamepadCheckInterval = setTimeout(this.checkForGamepadEvent, InputController.POLLING_RATE);
+    }
+    stopGamepadCheckLoop() {
+        clearInterval(this.gamepadCheckInterval);
+        this.gamepadCheckInterval = null;
+    }
+
+    addListeners() { this.manageListeners(true); }
+    removeListeners() { this.manageListeners(false); }
     manageListeners(addListeners) {
         let listenerOp = window.removeEventListener;
         if (addListeners) listenerOp = window.addEventListener;
         
-        let listMap = this.state.listeners;
+        let listMap = this.listeners;
         for (let listener in listMap) listenerOp(listener, listMap[listener]);
     }
 
-    componentDidMount() {
-        this.manageListeners(true);
+    handleKeyDown(event) {
+        this.callbacks[InputAction.KEY_DOWN](event, this.getGameActionForButton(event));
     }
-    
-    componentWillUnmount() {
-        this.manageListeners(false);
+    handleKeyUp(event) {
+        this.callbacks[InputAction.KEY_DOWN](event, this.getGameActionForButton(event));
+    }
+
+    onGamepadConnectionChanged(event, isConnected) {
+        let gamepad = event.gamepad;
+        if (isConnected) {
+            //
+            if (this.gamepadCheckInterval == null) this.startGamepadCheckLoop();
+            this.gamepads[gamepad.index] = gamepad;
+        } else {
+            //Set this.gamepads[gamepad.index] to undefined
+            delete this.gamepads[gamepad.index];
+            //If we only have undefined gamepads, stop the gamepad check loop
+            if (new Set(this.gamepads).size == 1) this.stopGamepadCheckLoop();
+        }
+        this.callbacks[InputAction.GAMEPAD_CONNECT_CHANGE](event, isConnected);
+    }
+
+    checkForGamepadEvent() {
+
+    }
+
+    handleGamepadDown(event, gamepadIndex) {
+        this.callbacks[InputAction.GAMEPAD_DOWN](event, this.getGameActionForButton(event));
+    }
+    handleGamepadUp(event, gamepadIndex) {
+        this.callbacks[InputAction.GAMEPAD_UP](event, this.getGameActionForButton(event));
     }
 
     getGameActionForButton(event) {
@@ -57,25 +101,5 @@ export default class InputController extends React.Component {
         return false;
     }
 
-    handleKeyDown(event) {
-        this.props.onKeyDown(event, this.getGameActionForButton(event));
-    }
-
-    handleKeyUp(event) {
-        this.props.onKeyUp(event, this.getGameActionForButton(event));
-    }
-
-    onGamepadConnectionChanged(event, isConnected) {
-        let gamepads = this.state.gamepads;    
-        let gamepad = event.gamepad;
-        if (isConnected) {
-            gamepads[gamepad.index] = gamepad;
-        } else {
-            delete gamepads[gamepad.index];
-        }
-        this.setState({gamepads: gamepads});
-    }
-
-    render() { }
   }
   
