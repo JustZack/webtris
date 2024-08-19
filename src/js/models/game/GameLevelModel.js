@@ -1,7 +1,9 @@
+import _ from "lodash";
 import FPS from "../../util/FPS";
 
 export default class GameLevelModel {
-    constructor(fallTime, fastFallTime = FPS.ToMs(1)) {
+    constructor(number, fallTime, fastFallTime = FPS.ToMs(1)) {
+        this.number = number;
         this.fallTime = fallTime;
         this.fastFallTime = fastFallTime;
     }
@@ -18,5 +20,16 @@ export default class GameLevelModel {
     }
     setFastFallTime(newFastFallTime) {
         this.fastFallTime = newFastFallTime;
+    }
+
+    getNumber() {
+        return this.number;
+    }
+    setNumber(newNumber) {
+        this.number = newNumber;
+    }
+
+    copy() {
+        return new GameLevelModel(this.number, this.fallTime, this.fastFallTime);
     }
 }

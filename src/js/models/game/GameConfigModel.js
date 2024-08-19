@@ -10,10 +10,12 @@ export default class GameConfigModel {
 
     levels = [];
     //Add a new level to this config
-    addLevel(levelNumber, levelModel) { return this.levels[levelNumber] = levelModel; }
+    addLevel(levelModel) { return this.levels[levelModel.getNumber()] = levelModel; }
     //Define a level refrencing another level
     refrenceLevel(newLevelNumber, levelNumberToRefrence) {
-        this.addLevel(newLevelNumber, this.getLevel(levelNumberToRefrence));
+        let newLevel = this.getLevel(levelNumberToRefrence).copy();
+        newLevel.setNumber(newLevelNumber);
+        this.addLevel(newLevel);
     }
     //Define a range of levels that refrence another number
     refrenceLevels(newLevelStart, newLevelEnd, levelNumberToRefrence) {

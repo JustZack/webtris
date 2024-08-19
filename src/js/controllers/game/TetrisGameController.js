@@ -8,9 +8,9 @@ import ScoreView from "../../views/ScoreView";
 import StatisticsView from "../../views/StatisticsView";
 import LineCountView from "../../views/LineCountView";
 import LevelView from "../../views/LevelView";
-import NTSCGameConfigModel from "../../models/game/NTSCGameConfigModel";
-import PALGameConfigModel from "../../models/game/PALGameConfigModel";
-import WebtrisGameConfigModel from "../../models/game/WebtrisGameConfigModel";
+import NTSCGameConfig from "../../configs/game/NTSCGameConfig";
+import PALGameConfig from "../../configs/game/PALGameConfig";
+import WebtrisGameConfig from "../../configs/game/WebtrisGameConfig";
 import TetrisGameView from "../../views/TetrisGameView";
 
 export default class TetrisGameController extends React.Component {
@@ -24,7 +24,7 @@ export default class TetrisGameController extends React.Component {
 
         let boardHeight = blSize.height*(boSize.height);
 
-        let gameModel = new TetrisGameModel(new Point(4, 0), new WebtrisGameConfigModel());
+        let gameModel = new TetrisGameModel(new Point(4, 0), new WebtrisGameConfig());
         gameModel.setStartLevel(0);
         this.state = {
             positions: {
@@ -105,7 +105,7 @@ export default class TetrisGameController extends React.Component {
         const completedLines = gameModel.getCompletedLines();
         const totalPoints = gameModel.getPoints()
         const nextPiece = gameModel.getNextPiece();
-        const currentLevel = this.getCurrentLevelNumber();
+        const currentLevelNumber = this.getCurrentLevel().getNumber();
         const statistics = gameModel.getPlacedPieceStatistics();
         return (
             <TetrisGameView
@@ -115,14 +115,14 @@ export default class TetrisGameController extends React.Component {
                 completedLines={completedLines} 
                 totalPoints={totalPoints}
                 nextPiece={nextPiece}
-                currentLevel={currentLevel} 
+                currentLevel={currentLevelNumber} 
                 statistics={statistics}>
                 <BoardController 
                     position={positions.Board} boardSize={sizes.Board} blockSize={sizes.Block} 
                     getNextPiece={this.getNextPiece} 
                     isPaused={this.isPaused} togglePaused={this.togglePaused}
                     doGameModelUpdate={this.doGameModelUpdate}
-                    getCurrentLevel={this.getCurrentLevel} level={currentLevel}/>
+                    getCurrentLevel={this.getCurrentLevel}/>
             </TetrisGameView>
         );
 
