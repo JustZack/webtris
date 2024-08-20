@@ -1,3 +1,4 @@
+import KeyboardMapping from "../../configs/input/KeyboardMapping";
 import BoardModel from "../../models/board/BoardModel";
 import FallingPieceController from "../piece/FallingPieceController";
 import BoardView from "../../views/BoardView";
@@ -9,9 +10,7 @@ export default class BoardController extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = {
-            boardModel: new BoardModel(this.props.boardSize),
-        }
+
         this.doBoardUpdate = this.doBoardUpdate.bind(this);
         this.clearBoard = this.clearBoard.bind(this);
         this.doCheckForFullRows = this.doCheckForFullRows.bind(this);
@@ -19,7 +18,20 @@ export default class BoardController extends React.Component {
         this.clearFullRows = this.clearFullRows.bind(this);
         this.flashRows = this.flashRows.bind(this);
         this.setRowsState = this.setRowsState.bind(this);
-        
+
+        this.state = {
+            boardModel: new BoardModel(this.props.boardSize),
+            fallingPieceController: new FallingPieceController(KeyboardMapping, this.doBoardUpdate, this.props.doGameModelUpdate, 
+                                        this.doCheckForFullRows, this.props.isPaused, this.props.getNextPiece, this.props.getCurrentLevel)
+        }        
+    }
+
+    componentDidMount() {
+        this.state.fallingPieceController.addListeners();
+    }
+    
+    componentWillUnmount() {
+        this.state.fallingPieceController.removeListeners();
     }
 
     doBoardUpdate(callback) {
