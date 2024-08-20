@@ -18,12 +18,20 @@ export default class FallingPieceController extends InputController {
         this.isPaused = isPaused;
         this.getNextPiece = getNextPiece;
         this.getCurrentLevel = getCurrentLevel;
+
+        this.onKeyDown = this.onKeyDown.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
+
+        this.startFastFallTimeout = this.startFastFallTimeout.bind(this);
+        this.startShiftDownTimeout = this.startShiftDownTimeout.bind(this);
+        this.startShiftTimeout = this.startShiftTimeout.bind(this);
+        this.shiftDown = this.shiftDown.bind(this);
     }
 
     addListeners() {
         super.addListeners();
-        this.setCallback(InputAction.KEY_DOWN, this.handleKeyDown);
-        this.setCallback(InputAction.KEY_UP, this.handleKeyUp);        
+        this.setCallback(InputAction.KEY_DOWN, this.onKeyDown);
+        this.setCallback(InputAction.KEY_UP, this.onKeyUp);        
     }
 
     commitToBoard(piece) {
@@ -110,7 +118,7 @@ export default class FallingPieceController extends InputController {
     }
 
     //Some controls act like toggles while held down
-    handleKeyUp(event, gameAction) {
+    onKeyUp(event, gameAction) {
         let piece = this.fallingPiece;
         if (piece != null) {
             if (gameAction == GameAction.FAST_FALL) {
@@ -119,7 +127,7 @@ export default class FallingPieceController extends InputController {
         }
     }
 
-    handleKeyDown(event, gameAction) {
+    onKeyDown(event, gameAction) {
         if (this.canAcceptInput(gameAction)) {
             let piece = this.fallingPiece;
             let moveDirection = null;

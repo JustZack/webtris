@@ -27,7 +27,6 @@ export default class InputController {
         let actions = Object.keys(InputAction);
         for (let action in actions) 
             this.callbacks[actions[action]] = () => {};
-        console.log(this.callbacks);
     }
     setCallback(inputAction, callback) {
         let actions = Object.keys(InputAction);
@@ -36,7 +35,6 @@ export default class InputController {
         } else {
             throw `Tried setting InputController callback for unknown input action ${inputAction}`;
         }
-
     }
 
     startGamepadCheckLoop() {
@@ -58,7 +56,6 @@ export default class InputController {
     }
 
     handleKeyDown(event) {
-        console.log(this.callbacks);
         this.callbacks[InputAction.KEY_DOWN](event, this.getGameActionForButton(event));
     }
     handleKeyUp(event) {
@@ -105,6 +102,5 @@ export default class InputController {
         }
         return false;
     }
-
-  }
+}
   
