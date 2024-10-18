@@ -1,0 +1,78 @@
+.tetris-board {
+    position: absolute;
+    border: 5px solid aqua;
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+
+.board-text {
+    color: cornsilk;
+    font-size: 50px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.line-count {
+    box-sizing: border-box;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-bottom: none;
+}
+
+
+.score {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+    color: white;
+} 
+
+.next-piece {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+    table {
+        margin: auto;
+    }
+} 
+
+.statistics {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-right: none;
+    table {
+        display: flex;
+        padding: 0% 2%;
+    }
+    table, tbody, td {
+        width: 100%;
+    }
+}
+
+.level {
+    box-sizing: border-box;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border: 5px solid aqua;
+    border-left: none;
+}

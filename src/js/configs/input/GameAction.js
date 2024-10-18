@@ -1,0 +1,17 @@
+const GameAction = {
+    MOVE_LEFT: "MOVE_LEFT",
+    MOVE_UP: "MOVE_UP",
+    MOVE_RIGHT: "MOVE_RIGHT",
+    MOVE_DOWN: "MOVE_DOWN",
+
+    FAST_FALL: "FAST_FALL",
+
+    ROTATE_LEFT: "ROTATE_LEFT",
+    ROTATE_RIGHT: "ROTATE_RIGHT",
+
+    PLACE_PIECE: "PLACE_PIECE",
+    MAKE_PIECE: "MAKE_PIECE",
+
+    RESET_BOARD: "RESET_BOARD"
+}
+export default GameAction;
